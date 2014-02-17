@@ -1,10 +1,10 @@
 {
   "name": "generator-courier",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "A generator for Yeoman",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator", "journalism"
   ],
   "homepage": "https://github.com/csessig86/generator-courier",
   "bugs": "https://github.com/csessig86/generator-courier/issues",

@@ -242,6 +242,7 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
             <% if (templateTabletop) { %>// Here's the Tabletop feed
             // First we'll initialize Tabletop with our spreadsheet
             var jqueryNoConflict = jQuery;
+            // CHANGE THIS TO YOUR SPREADSHEET KEY
             jqueryNoConflict(document).ready(function(){
                 initializeTabletopObject('0As3JvOeYDO50dF9NWWRiaTdqNmdKQ1lCY3dpdDhZU3c');
             });

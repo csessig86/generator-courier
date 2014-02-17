@@ -1,8 +1,22 @@
 #<%= nameProject %>
+App description: <%= nameDescription %>
 
-To run your project:
+## Commands
+To create your project:
+
+	grunt app
+
+To run a test server:
 
 	grunt server
+
+To get your project ready for deployment:
+
+	grunt public
+
+To deploy via SFTP:
+
+	grunt deploy
 
 
 ## License
