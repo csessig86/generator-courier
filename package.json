@@ -1,8 +1,8 @@
 {
   "name": "generator-courier",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "private": false,
-  "description": "A generator for Yeoman",
+  "description": "A Yeoman generator for data journalists, map-makers and others.",
   "keywords": [
     "yeoman-generator", "journalism"
   ],
