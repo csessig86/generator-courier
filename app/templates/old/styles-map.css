@@ -1,0 +1,268 @@
+/*
+MAP STYLES GO HERE
+*/
+
+/* Universals */
+body {
+  background-color: #efefef;
+}
+
+
+/* Properties for both header, footer */
+.header-footer {
+  font-size: 17px;
+  z-index: 9;
+  position: fixed;
+  width: 100%;
+  background-color: #404040;
+  color: #333;
+}
+
+
+/***** Header *****/
+#courier-logo {
+  height: 20px;
+  float: left;
+  padding: 14px 0 0 5px;
+}
+
+#header-footer-geocoder {
+    border-bottom: 1px solid #FFFFFF;
+    height: 50px;
+}
+
+/* Mobile header */
+#mobile_headers {
+  float: left;
+  width: 100%;
+}
+
+#mobile_header {
+    color: #333333;
+    display: none;
+}
+
+#mobile_header h4 {
+    margin: 0;
+    padding: 5px 0 5px 5px;
+    font-family: Georgia;
+}
+
+#mobile_header h5 {
+    margin: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+
+/***** Map *****/
+#map {
+	position: absolute;
+	float: left;
+	height: 100%;
+	width: 100%;
+	z-index: 6;
+	background-color: #333333;
+}
+
+.leaflet-top {
+	left: auto;
+    left: 10px;
+    top: 50px;
+}
+
+.leaflet-bar {
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px 0 #444444;
+}
+
+
+/*
+LEGEND STYLES GO HERE
+*/
+#legend, #hide_show_legend {
+	background-color: #FFFFFF;
+	right: 10px;
+	opacity: 1;
+	position: absolute;
+	z-index: 8;
+	top: 60px;
+}
+
+#legend {
+	width: 25%;
+	max-width: 250px;
+	z-index: 7;
+	padding: 10px;
+}
+
+#legend p {
+	font-size: 12px;
+	margin: 0;
+	line-height: 15px;
+	padding-bottom: 5px;
+}
+
+#legend-text {
+	float: left;
+}
+
+#legend_paragraph_mobile_only {
+	display: none;
+}
+
+/* Hide, show legend buttons */
+#hide_show_legend {
+	height: 20px;
+	z-index: 8;
+	padding: 5px 5px 0 0;
+	margin: 5px 5px 0 0;
+}
+
+.icon-sort-up, .icon-sort-down, .hide_show_legend_text {
+	float: right;
+	padding-left: 5px;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.icon-sort-up {
+	padding-top: 5px;
+}
+
+.icon-sort-down {
+	padding-bottom: 5px;
+}
+
+
+/* Credits */
+#legend #credits, .description_box_text #credits {
+  padding-bottom: 10px;
+  float: left;
+  font-size: 11px;
+  line-height: 1.5em;
+}
+
+
+/* Social links */
+#share {
+	width: 100%;
+}
+
+#share ul {
+	margin: 0;
+}
+
+#share li {
+	list-style: none;
+	float: left;
+}
+
+
+/*
+GEOCODE STYLES GO HERE
+*/
+
+/* Only visible on IE */
+#search_box_text {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 14px;
+    padding-right: 5px;
+    display: none;
+}
+
+#geocoder_box {
+    float: right;
+}
+
+.icon-map-marker:before {
+    float: left;
+    font-size: 125%;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+#geocoder {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0;
+    float: left;
+    margin: 5px 5px 0;
+}
+
+#geocoder .geocodifyInput {
+
+    border-radius: 4px 0 0 4px;
+    padding: 9.5px 8px;
+    border-right: none;
+    margin-bottom: 5px;
+}
+
+#geocoder .geocodifyButton {
+    border: 1px solid #CCCCCC;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 5px;
+    padding: 11px;
+    float: right;
+}
+
+#geocoder .geocodifyDropdown {
+    width: 260px;
+    position: absolute;
+    z-index: 9003;
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    background-color: white;
+    border-top-color: #D9D9D9;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#geocoder .geocodifyDropdown ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#geocoder .geocodifyDropdown li {
+    display: block;
+    padding: 5px 0 5px 8px;
+    cursor: pointer;
+    margin: 0;
+    list-style-type: none;
+    text-align: left;
+    font-size: 100%;
+    font-family: inherit;
+}
+
+#geocoder .selected {
+    color: white;
+    background-color: #2262CC;
+    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100, from(#0088cc), to(#0077b3));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+}
+
+
+/* IE 8 or lower warning */
+#ie_warning {
+  z-index: 10000000px;
+  position: absolute;
+  bottom: 1%;
+  left: 1%;
+  background-color: #333;
+  padding: 5px 10px;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+}

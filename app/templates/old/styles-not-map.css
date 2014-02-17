@@ -1,0 +1,117 @@
+/* CONTENT STYLES GO HERE */
+
+/* Universals */
+body {
+  background-color: #FFF;
+}
+
+p, span, h1, h2, h3, h4, h5, h6 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/***** Header *****/
+#header-footer-geocoder {
+    background-color: #404040;
+    height: 30px;
+    border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0 1px 3px 0 #444444;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 5px 0;
+    position: fixed;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+    top: 0;
+    width: 100%;
+    z-index: 100000;
+}
+
+#header-footer-geocoder h4 {
+    color: #FFFFFF;
+    float: right;
+    margin: 0;
+    padding: 5px;
+}
+
+
+#courier-logo {
+  height: 20px;
+  float: left;
+  padding: 5px 0 0 0;
+}
+
+
+
+/***** Content *****/
+#main-page-box, #content-box {
+  width: 100%;
+}
+
+#content-box {
+  float: left;
+}
+
+/***** Top box *****/
+#top-box {
+  float: left;
+  width: 100%;
+  background-color: #EEEEEE;
+  -webkit-box-shadow: 0 1px 2px 0 #444444;
+  -moz-box-shadow: 0 1px 2px 0 #444444;
+  box-shadow: 0 1px 2px 0 #444444;
+}
+
+#credits-box p {
+  font-size: 13px;
+  color: #7d7d7d;
+}
+
+#icons-credit p {
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/***** Social buttons *****/
+.share {
+  width: 100%;
+  z-index: 100000000;
+}
+
+#share-main {
+  padding-top: 65px;
+}
+
+#share-secondary {
+  padding-top: 1%;
+}
+
+.share ul {
+  margin: 0px;
+}
+
+.share li {
+  list-style: none;
+}
+
+.float-left {
+  float: left;
+}
+
+.facebook-icon {
+  padding-right: 15px;
+}
+
+
+/***** Copyright *****/
+#copyright-box {
+  float: left;
+  margin-top: 20px;
+  padding-top: 15px;
+  padding-bottom: 25px;
+  width: 100%;
+  background-color: #EEEEEE;
+  -webkit-box-shadow: 2px 0 2px 0 #444444;
+  -moz-box-shadow: 2px 0 2px 0 #444444;
+  box-shadow: 2px 0 2px 0 #444444;
+}

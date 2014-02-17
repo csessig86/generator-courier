@@ -1,0 +1,10 @@
+clean:
+	rm -rf app
+
+clean-public:
+	rm -rf <%= nameFolder %>-public
+
+reset:
+	rm -rf app
+	rm -rf <%= nameFolder %>-public
+	yo courier

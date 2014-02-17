@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title><% if (templateMap) { %>MAP:<% } %> <%= nameProject %> | WCFCourier.com</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <link rel="shortcut icon" href="http://wcfcourier.com/favicon.ico" />
+
+    <!-- Mobile meta tags-->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="http://wcfcourier.com/app/special/facebookcourierlogo.jpg"/>
+    <meta http-equiv="cleartype" content="on">
+
+    <!-- Facebook meta tags-->
+    <meta property="og:title" content="<%= nameProject %>"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="http://wcfcourier.com/app/special/<%= nameFolder %>-public"/>
+    <meta property="og:image" content="http://wcfcourier.com/app/special/facebookcourierlogo.jpg"/>
+    <meta property="og:site_name" content="WCFCourier"/>
+    <meta property="og:description" content="<%= nameDescription %>" />
+
+    <!-- Twitter meta tags -->
+    <meta property="twitter:site" content="@WCFCourier">
+    <meta property="twitter:card" content="<%= nameDescriptionShortened %>">
+    <meta property="twitter:url" content="http://wcfcourier.com/app/special/<%= nameFolder %>-public">
+    <meta property="twitter:title" content="<%= nameProject %>">
+    <meta property="twitter:description" content="<%= nameDescription %>">
+    <meta property="twitter:image" content="http://wcfcourier.com/app/special/facebookcourierlogo.jpg">
+
+    <!-- CSS -->
+    <!-- build:css css/styles.css -->
+    <link rel="stylesheet" href="css/lib/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="css/lib/bootstrap.css" />
+    <% if (templateMap) { %><link rel="stylesheet" href="css/lib/leaflet.css" />
+    <link rel="stylesheet" href="css/lib/font-awesome.css" />
+    <link rel="stylesheet" href="css/lib/leaflet.awesome-markers.css" /><% if (templateMarkerCluster) { %>
+    <link rel="stylesheet" href="css/lib/leaflet-marker-custom-cluster.css" /><% } %>
+    <% } %>
+    <% _.each(baseCSS, function(v) { %>
+    <link rel="stylesheet" href="css/<%= v.name %>" /><% }); %>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- endbuild -->
+
+    <% if (templateMap) { %><!-- build:css css/styles-ie.css -->
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/lib/font-awesome-ie7.min.css" />
+    <![endif]-->
+    <!-- endbuild --><% } %>
+
+    <% if (templateHandlebars && templateTabletop) { %><!-- Templates -->
+    <script id="sections-template" type="text/x-handlebars-template">
+        {{#each body}}
+            <p>{{ brewery }}</p>
+        {{/each}}
+    </script><% } else if (templateHandlebars) { %>
+    <script id="sections-template" type="text/x-handlebars-template">
+        {{#each .}}
+            <p>{{ brewery }}</p>
+        {{/each}}
+    </script><% } %>
+</head>
+<body>
+    <!-- Require.js-->
+    <script data-main="js/config" src="js/require.js"></script>
+    
+    <% if (templateGeoJSON) { %><!-- GeoJSON info -->
+    <script type="text/javascript" src="json/polygons.geojson"></script><% } %>
+    <% if (templateMultipleGeoJSON) { %><script type="text/javascript" src="json/polygons_two.geojson"></script><% } %>
+    
+    <% if (!templateTabletop && !templateGeoJSON || templateJSONMap) { %><!-- JSON info -->
+    <script type="text/javascript" src="json/no-tabletop-data.json"></script><% } %>
+    <% if (templateMultipleJSONMap) { %><script type="text/javascript" src="json/no-tabletop-data-two.json"></script><% } %>
+    
+    <!-- Facebook -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        'use strict';
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = '//connect.facebook.net/en_US/all.js#xfbml=1&appId=148866255208434';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <noscript>
+        <div id="noscript_note">
+			You must have JavaScript enabled to view this page.
+		</div>
+	</noscript>
+
+    <% if (templateMap) { %><div id="mobile_header" class="header-footer box-shadow">
+        <div id="mobile_headers">
+            <div class="toggle_description btn icon-info-sign"></div>
+            <div id="legend_mobile_header">
+                <h4>Map: <%= nameProject %></h4>
+            </div>
+            <% if (templateDropdownGeoJSONAttributes) { %>
+            <select id="dropdownSelectAttributes_mobile" class="dropdownSelect dropdownSelect_mobile" name="dropdownSelectAttributes">
+                <option value="option_one">More info: Option One</option>
+                <option value="option_two">More info: Option Two</option>
+                <option value="option_three">More info: Option Three</option>
+            </select><% } %>
+            <% if (templateMultipleGeoJSON) { %>
+            <select id="dropdownSelectMultiple_mobile" class="dropdownSelect dropdownSelect_mobile" name="dropdownGeoJSONFiles">
+                <option value="geojson_one">GeoJSON file 1</option>
+                <option value="geojson_two">GeoJSON file 2</option>
+            </select><% } %>
+
+            <% if (templateMultipleJSONMapDropdown) { %>
+            <select id="dropdownSelectMultipleJSON_mobile" class="dropdownSelect dropdownSelect_mobile" name="dropdownJSONFiles">
+                <option value="json_one">JSON file 1</option>
+                <option value="json_two">JSON file 2</option>
+            </select><% } %>
+
+
+        </div>
+    </div><% } %>
+    <div id="header-footer-geocoder" class="header-footer box-shadow-bottom">
+        <a href="http://wcfcourier.com/">
+            <img alt="Waterloo-Cedar Falls Courier" id="courier-logo" src="imgs/WCFCourier_LOGO_BW_300px.png" />
+        </a>
+
+        <% if (templateMap) { %><div id="geocoder_box">
+            <form id="geocoder"></form>
+        </div><% } else { %><h4><%= nameProject %></h4><% } %>
+    </div>
+
+    <% if (templateMap) { %><div id="hide_show_legend">
+        <div class="hide_legend">
+            <div class="icon-sort-up"></div>
+            <div class="hide_show_legend_text">Hide</div>
+        </div>
+        <div class="show_legend" style="display: none;">
+            <div class="icon-sort-down"></div>
+            <div class="hide_show_legend_text">Show</div>
+        </div>
+    </div>
+
+	<div id="legend" class="box-shadow">
+        <h1><%= nameProject %></h1>
+
+        <% if (templateDropdownGeoJSONAttributes) { %><div class="select_box">
+            <div id="compare_the_maps_header">Pick an option:</div>
+            <select id="dropdownSelectAttributes_desktop" class="dropdownSelect dropdownSelect_desktop" name="dropdownSelectAttributes">
+                <option value="option_one">Option One</option>
+                <option value="option_two">Option Two</option>
+                <option value="option_three">Option Three</option>
+            </select>
+        </div><% } %>
+        <% if (templateMultipleGeoJSON) { %><div class="select_box">
+            <div id="compare_the_maps_header">Pick a file:</div>
+            <select id="dropdownSelectMultiple_desktop" class="dropdownSelect dropdownSelect_desktop" name="dropdownGeoJSONFiles">
+                <option value="geojson_one">GeoJSON file 1</option>
+                <option value="geojson_two">GeoJSON file 2</option>
+            </select>
+        </div><% } %>
+        <% if (templateMultipleJSONMapDropdown) { %><div class="select_box">
+            <div id="compare_the_maps_header">Pick a file:</div>
+            <select id="dropdownSelectMultipleJSON_desktop" class="dropdownSelect dropdownSelect_desktop" name="dropdownJSONFiles">
+                <option value="json_one">JSON file 1</option>
+                <option value="json_two">JSON file 2</option>
+            </select>
+        </div><% } %>
+        <% if (templateMultipleJSONMapCheckbox) { %><div class="colors legend_colors">
+            <div class="select_box">
+                <label class='checkbox'>
+                    <span class="button">
+                        <input type="checkbox" checked="checked" id="json_one" class="checkbox_json" />
+                    </span>
+                    JSON file 1
+                 </label>
+                 <label class='checkbox'>
+                    <span class="button">
+                        <input type="checkbox" checked="checked" id="json_two" class="checkbox_json" />
+                    </span>
+                    JSON file 2
+                 </label>
+            </div>
+        </div><% } %>
+
+        <div id="legend-text">
+            <div id="legend-text-intro">
+                <p><%= nameDescription %></p>
+            </div>
+
+            <div id="legend-text">
+                <p>More text goes here.</p>
+            </div>
+        </div>
+
+        <% if (templateColors) { %><div id="legend_mobile_colors">
+            <div class="colors legend_colors">
+                <span class="color_one"></span>Value 1
+                <br/>
+                <span class="color_two"></span>Value 2
+                <br/>
+                <span class="color_three"></span>Value 3
+                <br />
+                <span class="color_four"></span>Value 4
+                <br/>
+                <span class="color_five"></span>Value 5
+            </div>
+        </div><% } %>
+
+        <div id="credits">
+            <p><strong>Interactive:</strong> <a href="http://www.twitter.com/CourierEssig" target="_blank">Chris Essig</a> | Courier</p>
+            <p><strong>Data:</strong> <a href="" target="_blank">Data source goes here</a></p>
+        </div>
+
+        <br />
+
+        <div id="share">
+            <ul><li id="share-first-li">
+                <div class="fb-share-button" data-href="http://wcfcourier.com/app/special/<%= nameFolder %>-public" data-width="90" data-type="button_count"></div>
+            </li><li>
+                <a data-text="" href="http://twitter.com/share" class="twitter-share-button" data-url="http://wcfcourier.com/app/special/<%= nameFolder %>-public" data-text="MAP: <%= nameProject %>" data-via="WCFCourier">Tweet</a>
+                <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            </li></ul>
+        </div>
+    </div><% }  else { %><div id="main-page-box">
+        <div id="top-box">
+            <div id="share-main" class="share">
+                <ul>
+                    <!-- Facebook button cont. -->
+                    <li id="facebook-icon" class="float-left">
+                        <div class="fb-share-button" data-href="http://wcfcourier.com/app/special/<%= nameFolder %>-public" data-width="125" data-type="button_count"></div>
+                    </li>
+                    <li class="float-left">
+                        <!-- Twitter button -->
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wcfcourier.com/app/special/<%= nameFolder %>-public" data-text="<%= nameProject %>" data-via="WCFCourier">Tweet</a>
+                        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                    </li>
+                </ul>
+            </div>
+            
+            <br />
+            
+            <div id="intro-box">
+                <h3><%= nameProject %></h3>
+                <div id="credits-box">
+                    <p>October 29, 2013  •  By <a href="https://twitter.com/courieressig" target="_blank">Chris Essig</a></p>
+                </div>
+
+                <div id="description-box">
+                    <p><%= nameDescription %></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-box">
+            <br />
+            <br />
+        </div>
+    <!-- Close main page box -->
+    </div>
+    
+    <div id="second-page-box" style="display: none"></div>
+
+    <div id="copyright-box">
+        <p>&copy; Copyright 2013, <a href="http://wcfcourier.com/" target="_blank">Waterloo Cedar Falls Courier</a>, 100 E. 4th St. Waterloo, IA | <a href="http://wcfcourier.com/terms/" target="_blank">Terms of Service</a> and <a href="http://wcfcourier.com/privacy/" target="_blank">Privacy Policy</a></p>
+    </div><% } %>
+
+    <div class="popup box-shadow">
+        <div class="x_button toggle_popup btn icon-remove"></div>
+        <div class="popup_header"></div>
+        <div class="popup_content"></div>
+    </div>
+  
+    <div class="popup_cover"></div>
+
+    <% if (templateMap) { %><!-- For mobile -->
+    <div class="description_box box-shadow">
+	   <div class="x_button toggle_description btn icon-remove"> </div>
+		<div class="description_box_content">
+			<div class="description_box_text">
+                <div class="description_box_text_header"></div>
+                <div class="description_box_text_etc"></div>
+            </div>
+		</div>
+	</div>
+
+    <div class="description_box_cover"></div>
+
+    <div id="map"></div>
+    
+    <div id="content-box"></div>
+
+    <div id="ie_warning" style="display: none;">You are using Internet Explorer 8 or lower. Please update your browser or download <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for a better viewing experience.</div>
+    <!--[if lte IE 8]>
+    <script type="text/javascript">
+        $('#ie_warning').show();
+    </script>
+    <![endif]--><% } %>
+</body>
+</html>
