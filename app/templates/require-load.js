@@ -4,8 +4,13 @@ require(['app/load-tabletop'], function(tabletop){
 });<% } %>
 
 <% if (templateHandlebars && !templateTabletop) { %>// Handlebars load
-require(['app/handlebars-template'], function(handlebars){
+require(['app/load-handlebars'], function(handlebars){
 	handlebars.loadHandlebarsTemplate();
+});<% } %>
+
+<% if (!templateTabletop && !templateHandlebars) { %>// JSON load
+require(['app/load-json'], function(json){
+	json.loadJSONdata();
 });<% } %>
 
 <% if (templateMap) { %>// Map options load

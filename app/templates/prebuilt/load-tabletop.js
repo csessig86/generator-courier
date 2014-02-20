@@ -36,7 +36,7 @@ define(['jquery', 'tabletop'<% if (templateMap) { %>, 'leaflet.awesome-markers',
                 }
                 
                 <% if (templateHandlebars) { %>// Load templates after Tabletop data is loaded
-                require(['app/handlebars-template'], function(handlebars){
+                require(['app/load-handlebars'], function(handlebars){
                     handlebars.loadHandlebarsTemplate();
                 });<% } %>
             // Close pullDataFromTabletop

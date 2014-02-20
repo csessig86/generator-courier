@@ -35,6 +35,7 @@ module.exports = function (grunt) {
             livereload: {
                 files: [
                     '<%%= yeoman.app %>/index.html',
+                    '<%%= yeoman.app %>/iframe.html',
                     '<%%= yeoman.app %>/*',
                     '<%%= yeoman.app %>/css/*',
                     '<%%= yeoman.app %>/css/lib/*',
@@ -111,6 +112,10 @@ module.exports = function (grunt) {
                 src: '<%%= yeoman.app %>/index.html',
                 dest: '<%%= yeoman.dist %>/index.html'
             },
+            iframe: {
+                src: '<%%= yeoman.app %>/iframe.html',
+                dest: '<%%= yeoman.dist %>/iframe.html'
+            },
             imgs: {
                 expand: true,
                 flatten: true,
@@ -172,7 +177,8 @@ module.exports = function (grunt) {
                         'script': '../app/script'<% if (templateMap) { %>,
                         'map': '../app/map'<% } %><% if (templateTabletop) { %>,
                         'load-tabletop': '../app/load-tabletop'<% } %><% if (templateHandlebars) { %>,
-                        'handlebars-template': '../app/handlebars-template'<% } %>
+                        'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars) { %>,
+                        'load-json': '../app/load-json'<% } %>
                     },
                     modules: [
                         {
@@ -181,7 +187,8 @@ module.exports = function (grunt) {
                                 'script'<% if (templateMap) { %>,
                                 'map'<% } %><% if (templateTabletop) { %>,
                                 'load-tabletop'<% } %><% if (templateHandlebars) { %>,
-                                'handlebars-template'<% } %>
+                                'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars) { %>,
+                                'load-json'<% } %>
                             ]
                         }
                     ],
@@ -274,6 +281,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('public', [
         'copy:index',
+        'copy:iframe',
         'copy:imgs',
         'copy:font',
         'copy:data',<% if (templateMap || !templateTabletop) { %>

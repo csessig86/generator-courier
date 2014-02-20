@@ -287,6 +287,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         // Default pages
         // The following build up our index.html page
         this.templateIndex = 'index.html';
+        this.templateIndexiFrame = 'iframe.html';
         this.baseSASS = 'css/styles.scss';
 
         // Default CSS base
@@ -333,6 +334,7 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     // Main template
     this.template(this.templateIndex, 'app/index.html');
+    this.template(this.templateIndexiFrame, 'app/iframe.html');
     
     // Default CSS base
     this.copy('css/base.scss', 'app/scss/base.scss');
@@ -362,12 +364,16 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
 
     // Tabletop, non-Tabletop JS files
-    if (this.templateTabletop || this.templateHandlebars) {
-        this.copy('prebuilt/handlebars-template.js', 'app/js/app/handlebars-template.js');
-    }
-
     if (this.templateTabletop) {
         this.copy('prebuilt/load-tabletop.js', 'app/js/app/load-tabletop.js');
+    }
+
+    if (this.templateTabletop || this.templateHandlebars) {
+        this.copy('prebuilt/load-handlebars.js', 'app/js/app/load-handlebars.js');
+    }
+
+    if (!this.templateTabletop && !this.templateHandlebars) {
+        this.copy('prebuilt/load-json.js', 'app/js/app/load-json.js');
     }
 
     if (!this.templateTabletop && !this.templateGeoJSON || this.templateJSONMap) {
