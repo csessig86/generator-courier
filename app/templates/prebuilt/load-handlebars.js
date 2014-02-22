@@ -20,6 +20,11 @@ define(['jquery', 'handlebars'], function ($, handlebars) {
                 $(templates[num]["templatehtml"] + "").append(handlebarscompile(json_data));
             // Close for loop inside loadHandlebarsTemplate
             }
+
+            <% if (templateDataTables) { %>// Datatables load
+            require(['app/load-datatables'], function(datatables){
+                datatables.loadDataTables();
+            });<% } %>
         // Close loadHandlebarsTemplate
         }
     // Close return

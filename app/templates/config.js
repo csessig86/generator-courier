@@ -13,7 +13,8 @@ require.config({
 		},
 		'leaflet.awesome-markers' : ['leaflet'],
 		'jquery.geocodify': ['jquery']<% } %><% if (templateHandlebars) { %>,
-		'tabletop': ['handlebars']<% } %><% if (templateMarkerCluster) { %>,
+		'tabletop': ['handlebars']<% } %><% if (templateHandlebars) { %>,
+		'jquery.dataTables': ['jquery']<% } %><% if (templateMarkerCluster) { %>,
 		'leaflet.markercluster-custom-src': ['leaflet']<% } %>
 	}
 });

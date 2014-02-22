@@ -8,9 +8,7 @@ var yeoman = require('yeoman-generator');
 // Blank bases that we will append to
 var baseCSS = [];
 // Blank includes that we will append to
-var includesJS = [];
 var includesCSS = [];
-
 
 var CourierGenerator = module.exports = function CourierGenerator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
@@ -215,6 +213,17 @@ CourierGenerator.prototype.askFor = function askFor() {
     // Templating option: Handlebars
     {
         when: function (answers) {
+            return !answers.templateMap;
+        },
+        type: 'confirm',
+        name: 'templateDataTables',
+        message: 'Would you like to make a searchable database?',
+        default: false,
+
+    },
+    // Templating option: Handlebars
+    {
+        when: function (answers) {
             return !answers.templateMap && !answers.templateTabletop;
         },
         type: 'confirm',
@@ -265,6 +274,9 @@ CourierGenerator.prototype.askFor = function askFor() {
         this.templateCircleMarkers = props.templateCircleMarkers;
         this.templateMarkerCluster = props.templateMarkerCluster;
 
+        // DataTables
+        this.templateDataTables = props.templateDataTables;
+
         // Misc
         this.templateTabletop = props.templateTabletop;
         this.templateHandlebars = props.templateHandlebars;
@@ -281,7 +293,6 @@ CourierGenerator.prototype.askFor = function askFor() {
         }
         
         this.baseCSS = baseCSS;
-        this.includesJS = includesJS;
         this.includesCSS = includesCSS;
 
         // Default pages
@@ -290,19 +301,44 @@ CourierGenerator.prototype.askFor = function askFor() {
         this.templateIndexiFrame = 'iframe.html';
         this.baseSASS = 'css/styles.scss';
 
-        // Default CSS base
-        baseCSS.push({ name: 'base.css', url: 'css/base.css' });
+        
+        // USED FOR INDEX.HTML
+
+        // Default custom CSS files
+        baseCSS.push({ name: 'base.css' });
+
+        // Default lib CSS files
+        includesCSS.push({ name: 'lib/bootstrap-responsive.css' });
+        includesCSS.push({ name: 'lib/bootstrap.css' });
+        includesCSS.push({ name: 'lib/font-awesome.css' });
+        
+        // Push DataTables styles
+        if (props.templateDataTables) {
+            // Lib files
+            includesCSS.push({ name: 'lib/datatables-demo-page-table.css' });
+            // Custom files
+            baseCSS.push({ name: 'styles-datatables.css' });
+        }
 
         // Push map styles if selected
         if (props.templateMap) {
-            // Default map JS, styles
-            baseCSS.push({ name: 'styles-map.css', url: 'prebuilt/map/styles-map.css' });
+            // Lib files
+            includesCSS.push({ name: 'lib/leaflet.css' });
+            includesCSS.push({ name: 'lib/leaflet.awesome-markers.css' });
+            // Custom files
+            baseCSS.push({ name: 'styles-map.css' });
+
+            // Marker cluster CSS
+            if (props.templateMarkerCluster) {
+                includesCSS.push({ name: 'lib/leaflet-marker-custom-cluster.css' });
+            }
+        // Push non-map styles
         } else {
-            baseCSS.push({ name: 'styles-not-map.css', url: 'prebuilt/styles-not-map.css' });
+            baseCSS.push({ name: 'styles-not-map.css' });
         }
 
          // Default CSS media attributes
-         baseCSS.push({ name: 'base-media.css', url: 'css/base-media.css' });
+         baseCSS.push({ name: 'base-media.css' });
 
         cb();
     }.bind(this));
@@ -362,6 +398,12 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
         this.copy('prebuilt/map/cluster/leaflet.markercluster-custom-src.js', 'app/js/lib/leaflet.markercluster-custom-src.js');
     }
 
+    // DataTables
+    if (this.templateDataTables) {
+        this.copy('prebuilt/datatables/lib/datatables-demo-page-table.css', 'app/css/lib/datatables-demo-page-table.css');
+        this.copy('prebuilt/datatables/styles-datatables.scss', 'app/scss/styles-datatables.scss');
+        this.copy('prebuilt/datatables/load-datatables.js', 'app/js/app/load-datatables.js');
+    }
 
     // Tabletop, non-Tabletop JS files
     if (this.templateTabletop) {
@@ -372,7 +414,7 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
         this.copy('prebuilt/load-handlebars.js', 'app/js/app/load-handlebars.js');
     }
 
-    if (!this.templateTabletop && !this.templateHandlebars) {
+    if (!this.templateTabletop && !this.templateHandlebars && !this.templateJSONMap) {
         this.copy('prebuilt/load-json.js', 'app/js/app/load-json.js');
     }
 

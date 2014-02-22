@@ -34,13 +34,8 @@
 
     <!-- CSS -->
     <!-- build:css css/styles.css -->
-    <link rel="stylesheet" href="css/lib/bootstrap-responsive.css" />
-    <link rel="stylesheet" href="css/lib/bootstrap.css" />
-    <% if (templateMap) { %><link rel="stylesheet" href="css/lib/leaflet.css" />
-    <link rel="stylesheet" href="css/lib/font-awesome.css" />
-    <link rel="stylesheet" href="css/lib/leaflet.awesome-markers.css" /><% if (templateMarkerCluster) { %>
-    <link rel="stylesheet" href="css/lib/leaflet-marker-custom-cluster.css" /><% } %>
-    <% } %>
+    <% _.each(includesCSS, function(v) { %>
+    <link rel="stylesheet" href="css/<%= v.name %>" /><% }); %>
     <% _.each(baseCSS, function(v) { %>
     <link rel="stylesheet" href="css/<%= v.name %>" /><% }); %>
     <link rel="stylesheet" href="css/styles.css">
@@ -54,27 +49,60 @@
 
     <% if (templateHandlebars && templateTabletop) { %><!-- Templates -->
     <script id="sections-template" type="text/x-handlebars-template">
-        {{#each body}}
-            <p>{{ brewery }}</p>
-        {{/each}}
+        <table id="content-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Category 1</th>
+                    <th>Category 2</th>
+                    <th>Category 3</th>
+                    <th>Category 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each body}}
+                <tr>
+                    <td>{{ brewery }}</td>
+                    <td>{{ address }}</td>
+                    <td>{{ city }}</td>
+                    <td>{{ phone }}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </script><% } else if (templateHandlebars) { %>
     <script id="sections-template" type="text/x-handlebars-template">
-        {{#each .}}
-            <p>{{ brewery }}</p>
-        {{/each}}
+        <table id="content-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Category 1</th>
+                    <th>Category 2</th>
+                    <th>Category 3</th>
+                    <th>Category 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each .}}
+                <tr>
+                    <td>{{ brewery }}</td>
+                    <td>{{ address }}</td>
+                    <td>{{ city }}</td>
+                    <td>{{ phone }}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </script><% } %>
 </head>
 <body>
-    <!-- Require.js-->
-    <script data-main="js/config" src="js/require.js"></script>
-    
     <% if (templateGeoJSON) { %><!-- GeoJSON info -->
     <script type="text/javascript" src="json/polygons.geojson"></script><% } %>
     <% if (templateMultipleGeoJSON) { %><script type="text/javascript" src="json/polygons_two.geojson"></script><% } %>
-    
     <% if (!templateTabletop && !templateGeoJSON || templateJSONMap) { %><!-- JSON info -->
     <script type="text/javascript" src="json/no-tabletop-data.json"></script><% } %>
     <% if (templateMultipleJSONMap) { %><script type="text/javascript" src="json/no-tabletop-data-two.json"></script><% } %>
+
+    <!-- Require.js-->
+    <script data-main="js/config" src="js/require.js"></script>
     
     <!-- Facebook -->
     <div id="fb-root"></div>
@@ -255,6 +283,17 @@
         <div id="content-box">
             <br />
             <br />
+            <% if (!templateHandlebars) { %><table id="content-table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Category 1</th>
+                    <th>Category 2</th>
+                    <th>Category 3</th>
+                    <th>Category 4</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table><% } %>
         </div>
     <!-- Close main page box -->
     </div>
@@ -288,7 +327,10 @@
 
     <div id="map"></div>
     
-    <div id="content-box"></div>
+    <div id="content-box">
+        <br />
+        <br />
+    </div>
 
     <div id="ie_warning" style="display: none;">You are using Internet Explorer 8 or lower. Please update your browser or download <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for a better viewing experience.</div>
     <!--[if lte IE 8]>

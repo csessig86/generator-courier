@@ -1,0 +1,44 @@
+/* The wrapper */
+.dataTables_wrapper {
+    .input, textarea, select {
+        line-height: 25px;
+    }
+
+    select {
+        width: 75px;
+    }
+
+    input {
+        width: 150px;
+    }
+
+    .dataTables_length {
+        padding-left: 10px;
+    }
+
+    .dataTables_length label {
+        text-align: left;
+        line-height: 45px;
+    }
+
+    .dataTables_filter {
+        padding-right: 10px;
+    }
+
+    /* The table */
+    .dataTable {
+        table {
+            float: left;
+        }
+        
+        thead th {
+            text-align: left;
+            padding: 5px 18px 5px 10px;
+            border-bottom: 1px solid black;
+            font-weight: bold;
+            font-size: 15px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    }
+}

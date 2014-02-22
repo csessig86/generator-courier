@@ -141,8 +141,8 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
 <% } %>
 
     var map;
-    <% if (templateJSONMap) { %>var json_group = new L.FeatureGroup();<% } %>
-    <% if (templateMultipleJSONMap) { %>var json_group_two = new L.FeatureGroup();<% } %>
+    var json_group = new L.FeatureGroup();
+    var json_group_two = new L.FeatureGroup();
     <% if (templateMarkerCluster) { %>var marker_cluster_group = new L.MarkerClusterGroup();<% } %>
     L.Icon.Default.imagePath = 'css/images'
 

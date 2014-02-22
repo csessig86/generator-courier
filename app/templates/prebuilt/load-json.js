@@ -2,14 +2,26 @@ define(['jquery'], function ($) {
     return {
         loadJSONdata: function() {
             // This loop will spit out JSON data
-            for (num = 0; num < json_data.length; ++num) {
+            for (num_json = 0; num_json < json_data.length; ++num_json) {
 
                 // Determine if we are rendering the template at the beginning
                 // Or the end of the DIV
-                $("#content-box").append("<p>" + json_data[num]["brewery"] + "</p>");
+                var output_json = "<tr>";
+                output_json += "<td>" + json_data[num_json]["brewery"] + "</td>";
+                output_json += "<td>" + json_data[num_json]["address"] + "</td>";
+                output_json += "<td>" + json_data[num_json]["city"] + "</td>";
+                output_json += "<td>" + json_data[num_json]["phone"] + "</td>";
+                output_json += "</tr>";
+
+                $("#content-box tbody").append( output_json );
             // Close for loop inside loadHandlebarsTemplate
             }
-        // Close loadHandlebarsTemplate
+
+            <% if (templateDataTables) { %>// Datatables load
+            require(['app/load-datatables'], function(datatables){
+                datatables.loadDataTables();
+            });<% } %>
+        // Close loadJSONdata
         }
     // Close return
     }

@@ -5,7 +5,9 @@ A [Yeoman](http://yeoman.io) generator for data journalists, map-makers and othe
 ## Background
 This is generator is used at the [Waterloo-Cedar Falls Courier](http://wcfcourier.com) to scaffold out simple, one-page apps. Here's [an example of a map](http://wcfcourier.com/app/special/hemp-laws-public/) and here's an example of [a single-page app](http://wcfcourier.com/app/special/election2013/) that were created with this generator.
 
-Included are several options for making maps with [Leaflet](leafletjs.com). For instance, you can use JSON files with latitude and longitude coordinates in them to create a map. This generator will also scaffold out a map that uses GeoJSON file(s). You are also given the options for using [Tabletop](https://github.com/jsoma/tabletop) to pull data from a Google spreadsheet or [Handlebars](http://handlebarsjs.com/) to template the data. 
+Included are several options for making maps with [Leaflet](leafletjs.com). For instance, you can use JSON files with latitude and longitude coordinates in them to create a map. This generator will also scaffold out a map that uses GeoJSON file(s). You are also given the options for using [Tabletop](https://github.com/jsoma/tabletop) to pull data from a Google spreadsheet or [Handlebars](http://handlebarsjs.com/) to template the data.
+
+You can also create a searchable database using [DataTables](https://datatables.net/).
 
 NOTE: This generator uses [Require.JS](http://requirejs.org/), so it's probably best to familiarize yourself with that library before using this generator. Also, you can use [SASS](http://sass-lang.com/) with your projects if you like.
 

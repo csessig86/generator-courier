@@ -8,7 +8,7 @@ require(['app/load-handlebars'], function(handlebars){
 	handlebars.loadHandlebarsTemplate();
 });<% } %>
 
-<% if (!templateTabletop && !templateHandlebars) { %>// JSON load
+<% if (!templateTabletop && !templateHandlebars && !templateMap) { %>// JSON load
 require(['app/load-json'], function(json){
 	json.loadJSONdata();
 });<% } %>

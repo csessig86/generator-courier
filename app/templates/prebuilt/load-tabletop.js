@@ -38,6 +38,9 @@ define(['jquery', 'tabletop'<% if (templateMap) { %>, 'leaflet.awesome-markers',
                 <% if (templateHandlebars) { %>// Load templates after Tabletop data is loaded
                 require(['app/load-handlebars'], function(handlebars){
                     handlebars.loadHandlebarsTemplate();
+                });<% } else if (templateDataTables) { %>// Datatables load
+                require(['app/load-datatables'], function(datatables){
+                    datatables.loadDataTables();
                 });<% } %>
             // Close pullDataFromTabletop
             };

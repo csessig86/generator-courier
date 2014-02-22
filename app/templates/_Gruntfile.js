@@ -39,6 +39,7 @@ module.exports = function (grunt) {
                     '<%%= yeoman.app %>/*',
                     '<%%= yeoman.app %>/css/*',
                     '<%%= yeoman.app %>/css/lib/*',
+                    '<%%= yeoman.app %>/scss/*',
                     '<%%= yeoman.app %>/js/*',
                     '<%%= yeoman.app %>/js/app/*',
                     '<%%= yeoman.app %>/js/lib/*',
@@ -65,15 +66,13 @@ module.exports = function (grunt) {
                 }
             },
             <% if (templateMap) { %>leafletdefaultmarkers: {
-                options: {
-                    destPrefix: '<%%= yeoman.app %>/css/images'
-                },
                 files: {
-                    'layers-2x.png': 'leaflet-dist/images/layers-2x.png',
-                    'layers.png': 'leaflet-dist/images/layers.png',
-                    'marker-icon-2x.png': 'leaflet-dist/images/marker-icon-2x.png',
-                    'marker-icon.png': 'leaflet-dist/images/marker-icon.png',
-                    'marker-shadow.png': 'leaflet-dist/images/marker-shadow.png'
+                    '<%%= yeoman.app %>/css/images': 'leaflet-dist/images'
+                }
+            },<% } %>
+            <% if (templateDataTables) { %>dataTablesimages: {
+                files: {
+                    '<%%= yeoman.app %>/css/lib/images': 'datatables/media/images'
                 }
             },<% } %>
             font: {
@@ -93,7 +92,8 @@ module.exports = function (grunt) {
                     'async.js': 'requirejs-plugins/src/async.js',
                     'leaflet.js': 'leaflet-dist/leaflet.js',
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
-                    'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateHandlebars) { %>,
+                    'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
+                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
                     'handlebars.js': 'handlebars/handlebars.js'<% } %>
                 }
             },
@@ -143,21 +143,21 @@ module.exports = function (grunt) {
                 src: ['<%%= yeoman.app %>/json/**'],
                 dest: '<%%= yeoman.dist %>/json/',
                 filter: 'isFile'
-            }<% } %><% if (templateMap) { %>,
-            markersGeocode: {
+            }<% } %><% if (templateMap || templateDataTables) { %>,
+            csslibimages: {
                 expand: true,
                 flatten: true,
                 src: ['<%%= yeoman.app %>/css/lib/images/**'],
                 dest: '<%%= yeoman.dist %>/css/images/',
                 filter: 'isFile'
-            },
-            markersLeafletDefault: {
+            }<% if (templateMap) { %>,
+            cssimages: {
                 expand: true,
                 flatten: true,
                 src: ['<%%= yeoman.app %>/css/images/**'],
                 dest: '<%%= yeoman.dist %>/css/images/',
                 filter: 'isFile'
-            }<% } %>
+            }<% } %><% } %>
         },
         useminPrepare: {
             html: 'app/index.html',
@@ -176,8 +176,9 @@ module.exports = function (grunt) {
                         'require': '../require',
                         'script': '../app/script'<% if (templateMap) { %>,
                         'map': '../app/map'<% } %><% if (templateTabletop) { %>,
-                        'load-tabletop': '../app/load-tabletop'<% } %><% if (templateHandlebars) { %>,
-                        'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars) { %>,
+                        'load-tabletop': '../app/load-tabletop'<% } %><% if (templateDataTables) { %>,
+                        'load-datatables': '../app/load-datatables'<% } %><% if (templateHandlebars) { %>,
+                        'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
                         'load-json': '../app/load-json'<% } %>
                     },
                     modules: [
@@ -186,8 +187,9 @@ module.exports = function (grunt) {
                             include: [
                                 'script'<% if (templateMap) { %>,
                                 'map'<% } %><% if (templateTabletop) { %>,
-                                'load-tabletop'<% } %><% if (templateHandlebars) { %>,
-                                'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars) { %>,
+                                'load-tabletop'<% } %><% if (templateDataTables) { %>,
+                                'load-datatables'<% } %><% if (templateHandlebars) { %>,
+                                'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
                                 'load-json'<% } %>
                             ]
                         }
@@ -264,7 +266,8 @@ module.exports = function (grunt) {
     // Grunt task to run it all
     grunt.registerTask('app', [
         'bowercopy:basecss',<% if (templateMap) { %>
-        'bowercopy:leafletdefaultmarkers',<% } %>
+        'bowercopy:leafletdefaultmarkers',<% } %><% if (templateDataTables) { %>
+        'bowercopy:dataTablesimages',<% } %>
         'bowercopy:font',
         'bowercopy:basejs',
         'bowercopy:requirejs',
@@ -285,9 +288,9 @@ module.exports = function (grunt) {
         'copy:imgs',
         'copy:font',
         'copy:data',<% if (templateMap || !templateTabletop) { %>
-        'copy:json',<% } %><% if (templateMap) { %>
-        'copy:markersGeocode',
-        'copy:markersLeafletDefault',<% } %>
+        'copy:json',<% } %><% if (templateMap  || templateDataTables) { %>
+        'copy:csslibimages',<% if (templateMap)  { %>,
+        'copy:cssimages',<% } %><% } %>
         'useminPrepare',
         'concat',
         'cssmin',
