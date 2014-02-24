@@ -315,7 +315,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         // Push DataTables styles
         if (props.templateDataTables) {
             // Lib files
-            includesCSS.push({ name: 'lib/datatables-demo-page-table.css' });
+            includesCSS.push({ name: 'lib/datatables-custom.css' });
             // Custom files
             baseCSS.push({ name: 'styles-datatables.css' });
         }
@@ -400,7 +400,7 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     // DataTables
     if (this.templateDataTables) {
-        this.copy('prebuilt/datatables/lib/datatables-demo-page-table.css', 'app/css/lib/datatables-demo-page-table.css');
+        this.copy('prebuilt/datatables/lib/datatables-custom.css', 'app/css/lib/datatables-custom.css');
         this.copy('prebuilt/datatables/styles-datatables.scss', 'app/scss/styles-datatables.scss');
         this.copy('prebuilt/datatables/load-datatables.js', 'app/js/app/load-datatables.js');
     }

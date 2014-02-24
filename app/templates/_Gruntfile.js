@@ -93,7 +93,8 @@ module.exports = function (grunt) {
                     'leaflet.js': 'leaflet-dist/leaflet.js',
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
                     'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
-                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
+                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js',
+                    'dataTables.bootstrap.js': 'datatables-plugins/integration/bootstrap/2/dataTables.bootstrap.js'<% } %><% if (templateHandlebars) { %>,
                     'handlebars.js': 'handlebars/handlebars.js'<% } %>
                 }
             },
@@ -207,7 +208,7 @@ module.exports = function (grunt) {
                 src: ['<%%= yeoman.app %>/js/require-load.js'],
                 dest: '<%%= yeoman.dist %>/js/config.js',
                 options: {
-                    wrapper: ['require(["domReady"], function(domReady){\nrequire(["script"], function(script){\n', '\n});\n});']
+                    wrapper: ['require(["domReady!"], function(doc){\nrequire(["script"], function(script){\n', '\n});\n});']
                 }
             }
         },

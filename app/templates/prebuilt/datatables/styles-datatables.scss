@@ -12,16 +12,17 @@
         width: 150px;
     }
 
-    .dataTables_length {
+    .dataTables_length, .dataTables_info {
         padding-left: 10px;
     }
 
-    .dataTables_length label {
-        text-align: left;
-        line-height: 45px;
+    .dataTables_length select {
+        height: 22px;
+        margin-top: 4px;
+        margin-bottom: 4px;
     }
 
-    .dataTables_filter {
+    .dataTables_filter, .dataTables_paginate {
         padding-right: 10px;
     }
 
