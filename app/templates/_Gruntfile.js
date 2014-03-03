@@ -180,7 +180,8 @@ module.exports = function (grunt) {
                         'load-tabletop': '../app/load-tabletop'<% } %><% if (templateDataTables) { %>,
                         'load-datatables': '../app/load-datatables'<% } %><% if (templateHandlebars) { %>,
                         'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
-                        'load-json': '../app/load-json'<% } %>
+                        'load-json': '../app/load-json'<% } %><% if (!templateMap) { %>,
+                        'load-iframe': '../app/load-iframe'<% } %>
                     },
                     modules: [
                         {
@@ -191,7 +192,8 @@ module.exports = function (grunt) {
                                 'load-tabletop'<% } %><% if (templateDataTables) { %>,
                                 'load-datatables'<% } %><% if (templateHandlebars) { %>,
                                 'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
-                                'load-json'<% } %>
+                                'load-json'<% } %><% if (!templateMap) { %>,
+                                'load-iframe'<% } %>
                             ]
                         }
                     ],

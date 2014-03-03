@@ -384,6 +384,7 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
         this.copy('prebuilt/map/awesome-markers/leaflet.awesome-markers.css', 'app/css/lib/leaflet.awesome-markers.css');
     } else {
         this.copy('prebuilt/styles-not-map.scss', 'app/scss/styles-not-map.scss');
+        this.copy('prebuilt/load-iframe.js', 'app/js/app/load-iframe.js');
     }
 
     if (this.templateGeoJSON) {

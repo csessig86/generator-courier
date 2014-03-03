@@ -81,3 +81,8 @@ require(['app/map'], function(map){
 });<% } %>
 
 require(['app/script'], function(){ });
+
+<% if (!templateMap) { %>// Format if page is within iFrame
+require(['app/load-iframe'], function(iframe){
+	iframe.formatiFrame();
+});<% } %>
