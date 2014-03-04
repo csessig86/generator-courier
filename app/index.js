@@ -403,6 +403,8 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
     if (this.templateDataTables) {
         this.copy('prebuilt/datatables/lib/datatables-custom.css', 'app/css/lib/datatables-custom.css');
         this.copy('prebuilt/datatables/styles-datatables.scss', 'app/scss/styles-datatables.scss');
+        
+        this.copy('prebuilt/datatables/lib/dataTables.bootstrap-requirejs.js', 'app/js/lib/dataTables.bootstrap-requirejs.js');
         this.copy('prebuilt/datatables/load-datatables.js', 'app/js/app/load-datatables.js');
     }
 

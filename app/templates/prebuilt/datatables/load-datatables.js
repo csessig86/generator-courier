@@ -1,4 +1,4 @@
-define(['dataTables.bootstrap'], function (datatables) {
+define(['dataTables.bootstrap-requirejs'], function (datatables) {
     return {
         loadDataTables: function() {
             // Add commas to numbers > 1000

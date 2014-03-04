@@ -93,8 +93,7 @@ module.exports = function (grunt) {
                     'leaflet.js': 'leaflet-dist/leaflet.js',
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
                     'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
-                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js',
-                    'dataTables.bootstrap.js': 'datatables-plugins/integration/bootstrap/2/dataTables.bootstrap.js'<% } %><% if (templateHandlebars) { %>,
+                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
                     'handlebars.js': 'handlebars/handlebars.js'<% } %>
                 }
             },
@@ -177,10 +176,10 @@ module.exports = function (grunt) {
                         'require': '../require',
                         'script': '../app/script'<% if (templateMap) { %>,
                         'map': '../app/map'<% } %><% if (templateTabletop) { %>,
-                        'load-tabletop': '../app/load-tabletop'<% } %><% if (templateDataTables) { %>,
-                        'load-datatables': '../app/load-datatables'<% } %><% if (templateHandlebars) { %>,
+                        'load-tabletop': '../app/load-tabletop'<% } %><% if (templateHandlebars) { %>,
                         'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
-                        'load-json': '../app/load-json'<% } %><% if (!templateMap) { %>,
+                        'load-json': '../app/load-json'<% } %><% if (templateDataTables) { %>,
+                        'load-datatables': '../app/load-datatables'<% } %><% if (!templateMap) { %>,
                         'load-iframe': '../app/load-iframe'<% } %>
                     },
                     modules: [
@@ -189,10 +188,10 @@ module.exports = function (grunt) {
                             include: [
                                 'script'<% if (templateMap) { %>,
                                 'map'<% } %><% if (templateTabletop) { %>,
-                                'load-tabletop'<% } %><% if (templateDataTables) { %>,
-                                'load-datatables'<% } %><% if (templateHandlebars) { %>,
+                                'load-tabletop'<% } %><% if (templateHandlebars) { %>,
                                 'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
-                                'load-json'<% } %><% if (!templateMap) { %>,
+                                'load-json'<% } %><% if (templateDataTables) { %>,
+                                'load-datatables'<% } %><% if (!templateMap) { %>,
                                 'load-iframe'<% } %>
                             ]
                         }
