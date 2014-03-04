@@ -135,6 +135,83 @@
     }
 }
 
+<% if (templateDataTables) { %>// Table styles
+@media (max-width: 575px)  {
+    .dataTables_wrapper {
+        .table-bordered {
+            border: 0px solid #FFF;
+        }
+    }
+
+    .dataTable {
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr { 
+            display: block; 
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        tr {
+            border-top: 1px solid #333;
+            border-bottom: 15px solid #FFF;
+        }
+
+        .sorting_1 {
+            font-size: 14px;
+            font-weight: bold
+        }
+
+        tr.odd td.sorting_1 {
+            background-color: #EAEBFF;
+        }
+
+        td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+        }
+        
+        td:before { 
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            left: 6px;
+            width: 45%; 
+            padding-right: 10px; 
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Label the data */
+        td:nth-of-type(1):before { content: "Category 1:"; }
+        td:nth-of-type(2):before { content: "Category 2:" }
+        td:nth-of-type(3):before { content: "Category 3:" }
+        td:nth-of-type(4):before { content: "Category 4:" }
+
+    }
+}
+
+@media (max-width: 425px)  {
+    .dataTables_wrapper {
+        .row-fluid .span6 {
+            width: 100%;
+        }
+
+        .dataTables_filter {
+            float: left;
+            padding-top: 15px;
+        }
+    }
+}<% } %>
+
+
 <% if (templateMap) { %>
 @media (max-width: 400px) {
     //* Leaflet controls *//
