@@ -136,6 +136,7 @@
 }
 
 <% if (templateDataTables) { %>// Table styles
+// Table styles
 @media (max-width: 575px)  {
     .dataTables_wrapper {
         .table-bordered {
@@ -198,15 +199,49 @@
     }
 }
 
-@media (max-width: 425px)  {
+@media (max-width: 475px)  {
     .dataTables_wrapper {
         .row-fluid .span6 {
             width: 100%;
+            margin: 0px;
+        }
+
+        .dataTables_length {
+            float: left;
+            width: 98%;
+            padding-right: 1%;
+            padding-left: 1%;
+
+            select, label {
+                width: 100%;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            select {
+                height: 30px;
+            }
         }
 
         .dataTables_filter {
             float: left;
+            width: 98%;
             padding-top: 15px;
+            padding-right: 1%;
+            padding-left: 1%;
+            padding-bottom: 15px;
+            padding-top: 15px;
+
+            label {
+                width: 100%;
+                text-align: left;
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+
+        input {
+            width: 96%;
         }
     }
 }<% } %>

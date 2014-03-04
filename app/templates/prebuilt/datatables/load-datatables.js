@@ -73,6 +73,23 @@ define(['dataTables.bootstrap'], function (datatables) {
             // Close dataTable load
             });
         // Close loadDataTables
+        },
+        // Mobile styles for DataTables
+        mobileDatatablesOptions: function() {
+            // Length options
+            $('#description-box').append('<p><strong>Use the options below to search through the table.</strong></p>');
+            $('.dataTables_length option').prepend('Records per page: ');
+            $('.dataTables_length label').css({
+                'font-size': '0px',
+                'color': '#FFF'
+            })
+
+            // Search options
+            $('.dataTables_filter label').css({
+                'font-size': '0px',
+                'color': '#FFF'
+            })
+            $('.dataTables_filter input').attr('placeholder', 'Search the table...');
         }
     // Close return
     }

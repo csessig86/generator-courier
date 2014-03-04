@@ -20,6 +20,10 @@ define(['jquery'], function ($) {
             <% if (templateDataTables) { %>// Datatables load
             require(['app/load-datatables'], function(datatables){
                 datatables.loadDataTables();
+                // For mobile load
+                if ($(window).width() < 476) {
+                    datatables.mobileDatatablesOptions();
+                }
             });<% } %>
         // Close loadJSONdata
         }
