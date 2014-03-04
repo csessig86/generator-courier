@@ -157,11 +157,8 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
               map = new L.Map('map').setView([42,-92.25],7);
             }
 
-            // Information for the base tile via Cloudmade
-            var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/02ef99510f374abb911e6a0260145820/72392/256/{z}/{x}/{y}.png'
-            var cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 10, minZoom: 4});
-            // Add to map
-            map.addLayer(cloudmade);
+            // Information for the base tile
+            var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
 
             <% if (templateGeoJSON) { %>// Set view on mobile
             $( document ).ready(function() {

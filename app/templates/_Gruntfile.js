@@ -91,6 +91,7 @@ module.exports = function (grunt) {
                     'jquery.js': 'jquery/jquery.js'<% if (templateMap) { %>,
                     'async.js': 'requirejs-plugins/src/async.js',
                     'leaflet.js': 'leaflet-dist/leaflet.js',
+                    'leaflet-providers.js': 'leaflet-providers/leaflet-providers.js',
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
                     'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
                     'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
@@ -291,7 +292,7 @@ module.exports = function (grunt) {
         'copy:font',
         'copy:data',<% if (templateMap || !templateTabletop) { %>
         'copy:json',<% } %><% if (templateMap  || templateDataTables) { %>
-        'copy:csslibimages',<% if (templateMap)  { %>,
+        'copy:csslibimages',<% if (templateMap)  { %>
         'copy:cssimages',<% } %><% } %>
         'useminPrepare',
         'concat',

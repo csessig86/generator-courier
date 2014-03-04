@@ -8,6 +8,7 @@
         "requirejs": "~2.1.5",<% if (templateMap) { %>
         "requirejs-plugins": "",
         "leaflet-dist": "0.7.1",
+        "leaflet-providers": "1.0.1",
         "Leaflet.awesome-markers": "1.0.0",<% } %><% if (templateMarkerCluster) { %>
         "leaflet.markercluster": "0.4.0",<% } %><% if (templateTabletop) { %>
         "tabletop": "1.3.2",<% } %><% if (templateDataTables) { %>
