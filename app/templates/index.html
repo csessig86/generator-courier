@@ -47,8 +47,9 @@
     <![endif]-->
     <!-- endbuild --><% } %>
 
-    <% if (templateHandlebars && templateTabletop) { %><!-- Templates -->
+    <% if (templateHandlebars) { %><!-- Templates -->
     <script id="sections-template" type="text/x-handlebars-template">
+        <% if (templateDataTables || templateRegularTable) { %>
         <table id="content-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -59,38 +60,26 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each body}}
+                <% if (templateTabletop) { %>
+                    {{#each body}}
+                <% } else { %>
+                    {{#each .}}
+                <% } %>
                 <tr>
-                    <td>{{ brewery }}</td>
+                    <td class="sorting_1">{{ brewery }}</td>
                     <td>{{ address }}</td>
                     <td>{{ city }}</td>
                     <td>{{ phone }}</td>
                 </tr>
                 {{/each}}
             </tbody>
-        </table>
-    </script><% } else if (templateHandlebars) { %>
-    <script id="sections-template" type="text/x-handlebars-template">
-        <table id="content-table" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Category 1</th>
-                    <th>Category 2</th>
-                    <th>Category 3</th>
-                    <th>Category 4</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each .}}
-                <tr>
-                    <td>{{ brewery }}</td>
-                    <td>{{ address }}</td>
-                    <td>{{ city }}</td>
-                    <td>{{ phone }}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+        </table><% } else { %><% if (templateTabletop) { %>
+        {{#each body}}
+        <% } else { %>
+        {{#each .}}
+        <% } %>
+            <p>{{ brewery }}</p>
+        {{/each}}<% } %>
     </script><% } %>
 </head>
 <body>
@@ -283,7 +272,7 @@
         <div id="content-box">
             <br />
             <br />
-            <% if (!templateHandlebars) { %><table id="content-table" class="table table-striped table-bordered">
+            <% if (!templateHandlebars && templateRegularTable) { %><table id="content-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Category 1</th>

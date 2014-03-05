@@ -135,16 +135,15 @@
     }
 }
 
-<% if (templateDataTables) { %>// Table styles
-// Table styles
+<% if (templateDataTables || templateRegularTable) { %>// Table styles
 @media (max-width: 575px)  {
-    .dataTables_wrapper {
+    #content-box {
         .table-bordered {
             border: 0px solid #FFF;
         }
     }
 
-    .dataTable {
+    #content-box {
         /* Force table to not be like tables anymore */
         table, thead, tbody, th, td, tr { 
             display: block; 
@@ -197,8 +196,9 @@
         td:nth-of-type(4):before { content: "Category 4:" }
 
     }
-}
+}<% } %>
 
+<% if (templateDataTables) { %>// DataTable styles
 @media (max-width: 475px)  {
     .dataTables_wrapper {
         .row-fluid .span6 {

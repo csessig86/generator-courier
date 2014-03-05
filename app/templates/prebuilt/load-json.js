@@ -6,14 +6,18 @@ define(['jquery'], function ($) {
 
                 // Determine if we are rendering the template at the beginning
                 // Or the end of the DIV
-                var output_json = "<tr>";
-                output_json += "<td>" + json_data[num_json]["brewery"] + "</td>";
+                <% if (templateDataTables || templateRegularTable) { %>var output_json = "<tr>";
+                output_json += "<td class='sorting_1'>" + json_data[num_json]["brewery"] + "</td>";
                 output_json += "<td>" + json_data[num_json]["address"] + "</td>";
                 output_json += "<td>" + json_data[num_json]["city"] + "</td>";
                 output_json += "<td>" + json_data[num_json]["phone"] + "</td>";
                 output_json += "</tr>";
 
-                $("#content-box tbody").append( output_json );
+                $("#content-box tbody").append( output_json );<% } else { %>
+                var output_json = "<p>" + json_data[num_json]["brewery"] + "</p>";
+
+                $("#content-box").append( output_json );
+                <% } %>
             // Close for loop inside loadHandlebarsTemplate
             }
 

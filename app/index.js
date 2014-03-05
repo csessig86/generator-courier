@@ -210,7 +210,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         message: 'Do you want the popup for the JSON data to take up the full screen?',
         default: false
     },
-    // Templating option: Handlebars
+    // Templating options: Tables
     {
         when: function (answers) {
             return !answers.templateMap;
@@ -218,6 +218,16 @@ CourierGenerator.prototype.askFor = function askFor() {
         type: 'confirm',
         name: 'templateDataTables',
         message: 'Would you like to make a searchable database?',
+        default: false,
+
+    },
+    {
+        when: function (answers) {
+            return !answers.templateMap && !answers.templateDataTables;
+        },
+        type: 'confirm',
+        name: 'templateRegularTable',
+        message: 'Would you like to make a regular table?',
         default: false,
 
     },
@@ -274,8 +284,9 @@ CourierGenerator.prototype.askFor = function askFor() {
         this.templateCircleMarkers = props.templateCircleMarkers;
         this.templateMarkerCluster = props.templateMarkerCluster;
 
-        // DataTables
+        // Tables
         this.templateDataTables = props.templateDataTables;
+        this.templateRegularTable = props.templateRegularTable;
 
         // Misc
         this.templateTabletop = props.templateTabletop;

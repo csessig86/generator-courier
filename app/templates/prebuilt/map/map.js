@@ -158,7 +158,7 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
             }
 
             // Information for the base tile
-            var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+            var defaultLayer = L.tileLayer.provider('Esri.NatGeoWorldMap').addTo(map);
 
             <% if (templateGeoJSON) { %>// Set view on mobile
             $( document ).ready(function() {
