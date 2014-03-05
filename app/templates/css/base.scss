@@ -45,6 +45,16 @@ hr {
 
 //* HEADER, FOOTER STYLES GO HERE *//
 
+//* Properties for both header, footer *//
+.header-footer {
+    background-color: #404040;
+    color: #333;
+    font-size: 17px;
+    position: fixed;
+    width: 100%;
+    z-index: 9;
+}
+
 //* H1 styles *//
 #header-footer-geocoder h1,
 #legend h1,
@@ -137,3 +147,20 @@ hr {
     float: right;
     text-shadow: 0 1px 2px 0 #444;
 }
+
+
+<% if (templateDataTables || templateRegularTable) { %>// Return to top nav box
+#footer-table {
+    display: none;
+    bottom: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 12px;
+    border-bottom: 0px solid #FFF;
+    -moz-box-shadow: 0 10px 10px #cccccc;
+    box-shadow: 0 0px 3px 0 #444444;
+    border-top: 1px solid #ccc;
+    cursor: pointer;
+}<% } %>

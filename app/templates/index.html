@@ -301,6 +301,14 @@
   
     <div class="popup_cover"></div>
 
+    <% if (templateDataTables || templateRegularTable) { %><a href="#top">
+        <div id='footer-table' class='header-footer'>
+            <div class="icon-arrow-up icon-white"></div><br />
+                Return to Top
+            </div>
+        </div>
+    </a><% } %>
+
     <% if (templateMap) { %><!-- For mobile -->
     <div class="description_box box-shadow">
 	   <div class="x_button toggle_description btn icon-remove"> </div>

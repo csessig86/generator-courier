@@ -238,14 +238,28 @@
                 font-size: 16px;
                 font-weight: bold;
             }
-        }
 
-        input {
-            width: 96%;
+            input {
+                width: 97%;
+                padding-left: 2%;
+                padding-right: 0px;
+                padding-top: 2%;
+                padding-bottom: 2%;
+            }
         }
+    }
+
+    #footer-table {
+        display: block;
     }
 }<% } %>
 
+<% if (templateRegularTable) { %>// Footer nav box
+@media (max-width: 475px)  {
+    #footer-table {
+        display: block;
+    }
+}<% } %>
 
 <% if (templateMap) { %>
 @media (max-width: 400px) {
