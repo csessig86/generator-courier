@@ -238,6 +238,19 @@ margin-left: 5px;
 }
 
 
+//* Toggle map, table buttons *//
+#toggle-map-table {
+    padding: 10px;
+    z-index: 7;
+    background-color: #fff;
+    opacity: 1;
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+    z-index: 8;
+}
+
+
 //* Credits *//
 #legend #credits,
 .description_box_text #credits {
@@ -342,6 +355,19 @@ margin-left: 5px;
     @include background-image(#08c, #0077b3)
   }
 }
+
+
+//* Where our table goes *//
+#content-box {
+    display: none;
+    background-color: #FFF;
+}
+
+#content-table_wrapper {
+    padding-top: 5px;
+    padding-bottom: 50px;
+}
+
 
 //* IE 8 or lower warning *//
 #ie_warning {

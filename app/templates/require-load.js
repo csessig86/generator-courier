@@ -1,4 +1,4 @@
-<% if (templateTabletop && !templateMap) { %>// Tabletop load
+<% if (templateTabletop) { %>// Tabletop load
 require(['app/load-tabletop'], function(tabletop){
 	tabletop.initializeTabletopLoad();
 });<% } %>
@@ -8,7 +8,7 @@ require(['app/load-handlebars'], function(handlebars){
 	handlebars.loadHandlebarsTemplate();
 });<% } %>
 
-<% if (!templateTabletop && !templateHandlebars && !templateMap) { %>// JSON load
+<% if (!templateTabletop && !templateHandlebars && !templateMap || templateJSONMap) { %>// JSON load
 require(['app/load-json'], function(json){
 	json.loadJSONdata();
 });<% } %>
@@ -18,6 +18,7 @@ require(['app/map'], function(map){
 	map.baseMap();
     map.geocode();
 	map.responsiveLegend();
+	map.toggleTable();
 	<% if (templateGeoJSON) { %>map.geoJSON();<% } %>
 	<% if (templateMultipleGeoJSON) { %>map.geoJSONTwo();
 	map.removeSecondGeoJSON();<% } %>

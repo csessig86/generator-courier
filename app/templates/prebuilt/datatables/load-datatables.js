@@ -91,6 +91,7 @@ define(['dataTables.bootstrap-requirejs'], function (datatables) {
             })
             $('.dataTables_filter input').attr('placeholder', 'Search the table...');
         }
+        // Close mobile styles for Datatables
     // Close return
     }
 });

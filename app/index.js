@@ -9,6 +9,8 @@ var yeoman = require('yeoman-generator');
 var baseCSS = [];
 // Blank includes that we will append to
 var includesCSS = [];
+// JSON files we're using
+var baseJSON = [];
 
 var CourierGenerator = module.exports = function CourierGenerator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
@@ -136,7 +138,7 @@ CourierGenerator.prototype.askFor = function askFor() {
     {
         type: 'confirm',
         name: 'templateTabletop',
-        message: 'Would you like to use Tabletop?',
+        message: 'Data import: Would you like to use Tabletop?',
         default: false,
         when: function (answers) {
             if (answers.prebuilt) {
@@ -152,7 +154,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         },
         type: 'confirm',
         name: 'templateJSONMap',
-        message: 'Would you like to use JSON data?',
+        message: 'Data import: Would you like to use JSON data?',
         default: false
     },
     {
@@ -161,7 +163,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         },
         type: 'confirm',
         name: 'templateMultipleJSONMap',
-        message: 'Would you like to use multiple JSON files?',
+        message: 'Data import: Would you like to use multiple JSON files?',
         default: false
     },
     {
@@ -234,7 +236,7 @@ CourierGenerator.prototype.askFor = function askFor() {
     // Templating option: Handlebars
     {
         when: function (answers) {
-            return !answers.templateMap && !answers.templateTabletop;
+            return !answers.templateTabletop && !answers.templateJSONMap && !answers.templateGeoJSON;
         },
         type: 'confirm',
         name: 'templateHandlebars',
@@ -293,8 +295,8 @@ CourierGenerator.prototype.askFor = function askFor() {
         this.templateHandlebars = props.templateHandlebars;
         this.templateSASS = props.templateSASS;
 
-        // Use Handelbars by default if not using map but using Tabletop
-        if (this.templateMap === false && this.templateTabletop === true) {
+        // Use Handelbars by default when using Tabletop
+        if (this.templateTabletop === true) {
             this.templateHandlebars = true;
         }
 
@@ -302,9 +304,20 @@ CourierGenerator.prototype.askFor = function askFor() {
         if (this.templateMap === true && this.templateGeoJSON === false && this.templateTabletop === false) {
             this.templateJSONMap = true;
         }
+
+        // Use Handlebars to template table if using just GeoJSON
+        if (this.templateGeoJSON === true && this.templateTabletop === false && this.templateJSONMap === false) {
+            this.templateHandlebars = true;
+        }
+
+        // Use DataTables if we're using a map
+        if (this.templateMap === true) {
+            this.templateDataTables = true;
+        }
         
         this.baseCSS = baseCSS;
         this.includesCSS = includesCSS;
+        this.baseJSON = baseJSON;
 
         // Default pages
         // The following build up our index.html page
@@ -324,7 +337,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         includesCSS.push({ name: 'lib/font-awesome.css' });
         
         // Push DataTables styles
-        if (props.templateDataTables) {
+        if (props.templateDataTables || props.templateMap) {
             // Lib files
             includesCSS.push({ name: 'lib/datatables-custom.css' });
             // Custom files
@@ -379,10 +392,6 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
     this.mkdir('app/imgs');
     this.mkdir('app/data');
 
-    // Main template
-    this.template(this.templateIndex, 'app/index.html');
-    this.template(this.templateIndexiFrame, 'app/iframe.html');
-    
     // Default CSS base
     this.copy('css/base.scss', 'app/scss/base.scss');
 
@@ -400,9 +409,11 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     if (this.templateGeoJSON) {
         this.copy('prebuilt/map/geojson/polygons.geojson', 'app/json/polygons.geojson');
+        baseJSON.push({ name: 'polygons.geojson' });
     }
     if (this.templateMultipleGeoJSON) {
         this.copy('prebuilt/map/geojson/polygons_two.geojson', 'app/json/polygons_two.geojson');
+        baseJSON.push({ name: 'polygons_two.geojson' });
     }
 
     if (this.templateMarkerCluster) {
@@ -426,17 +437,22 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     if (this.templateTabletop || this.templateHandlebars) {
         this.copy('prebuilt/load-handlebars.js', 'app/js/app/load-handlebars.js');
+        
+        if (!this.templateGeoJSON || this.templateGeoJSON && this.templateTabletop) {
+            this.copy('prebuilt/no-tabletop-data.json', 'app/json/no-tabletop-data.json');
+            baseJSON.push({ name: 'no-tabletop-data.json' });
+        }
     }
 
-    if (!this.templateTabletop && !this.templateHandlebars && !this.templateJSONMap) {
+    if (!this.templateTabletop && !this.templateHandlebars && !this.templateGeoJSON || this.templateJSONMap) {
         this.copy('prebuilt/load-json.js', 'app/js/app/load-json.js');
+        this.copy('prebuilt/no-tabletop-data.json', 'app/json/no-tabletop-data.json');
+        baseJSON.push({ name: 'no-tabletop-data.json' });
     }
 
-    if (!this.templateTabletop && !this.templateGeoJSON || this.templateJSONMap) {
-        this.copy('prebuilt/no-tabletop-data.json', 'app/json/no-tabletop-data.json');     
-    }
     if (this.templateMultipleJSONMap) {
-        this.copy('prebuilt/no-tabletop-data-two.json', 'app/json/no-tabletop-data-two.json');     
+        this.copy('prebuilt/no-tabletop-data-two.json', 'app/json/no-tabletop-data-two.json');
+        baseJSON.push({ name: 'no-tabletop-data-two.json' });
     }
 
     // Default CSS media attributes
@@ -465,4 +481,8 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
     this.copy('.ftppass', '.ftppass');
+
+    // Main template
+    this.template(this.templateIndex, 'app/index.html');
+    this.template(this.templateIndexiFrame, 'app/iframe.html');
 };

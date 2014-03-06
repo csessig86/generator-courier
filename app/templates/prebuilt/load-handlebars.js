@@ -17,7 +17,11 @@ define(['jquery', 'handlebars'], function ($, handlebars) {
 
                 // Determine if we are rendering the template at the beginning
                 // Or the end of the DIV
+                <% if (!templateTabletop && !templateJSONMap && templateGeoJSON) { %>
+                $(templates[num]["templatehtml"] + "").append(handlebarscompile(polygons.features));
+                <% } else { %>
                 $(templates[num]["templatehtml"] + "").append(handlebarscompile(json_data));
+                <% } %>
             // Close for loop inside loadHandlebarsTemplate
             }
 

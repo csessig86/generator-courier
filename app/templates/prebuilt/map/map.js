@@ -66,24 +66,25 @@ function getColor(m) {
 }
 
 <% if (templateLargePopupGeoJSON) { %>// Our popup
-function popup(e) {
+function popupGeoJSON(e) {
     var layer_geojson = e.target;
     var properties = layer_geojson.feature.properties;
 
     $('.popup_cover').show();
-    $('.toggle_popup').show();
-    $('.popup').show();
     
-    var popup_header = '<div class="popup_header">' + properties.NAMELSAD10 + '</div>';
+    var popup_header = properties.NAMELSAD10;
     var popup_content = '<div class="popup_content_box">'
     
     popup_content += '<p>Percentage of population in poverty: ' + numberFormat(parseInt(properties.PERCENTBEL)) + '%</p>';
     popup_content += '<p>Percentage of males in poverty: ' + numberFormat(parseInt(properties.PERCENTBE3)) + '%</p>';
     popup_content += '<p>Percentage of females in poverty: ' + numberFormat(parseInt(properties.PERCENTBE5)) + '%</p>';
     popup_content += '</div>';
+
+    $('#popup-box').find('.popup_header').html(popup_header);
+    $('#popup-box').find('.popup_content').html(popup_content);
     
-    $('.popup_header').html(popup_header);
-    $('.popup_content').html(popup_content);
+    $('#popup-box').find('.toggle_popup').show();
+    $('#popup-box').show();
 // End popup function
 } <% } %>
 
@@ -92,7 +93,7 @@ function onEachFeature(feature, layer_geojson) {
     layer_geojson.on({
         mouseover: highlightPolygons,
         mouseout: resetHighlightPolygons,
-        <% if (templateLargePopupGeoJSON) { %>click: popup<% } %>
+        <% if (templateLargePopupGeoJSON) { %>click: popupGeoJSON<% } %>
     });
     
     <% if (!templateLargePopupGeoJSON) { %>var properties = layer_geojson.feature.properties;
@@ -159,13 +160,6 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
 
             // Information for the base tile
             var defaultLayer = L.tileLayer.provider('Esri.NatGeoWorldMap').addTo(map);
-
-            <% if (templateGeoJSON) { %>// Set view on mobile
-            $( document ).ready(function() {
-                if ($(window).width() < 626) {
-                    map.fitBounds(geojson.getBounds())
-                }
-            });<% } %>
         }<% if (templateGeoJSON) { %>,
         // Add GeoJSON to map
         geoJSON: function() {
@@ -175,6 +169,10 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                 style: styleGeoJSON,
                 onEachFeature: onEachFeature
             }).addTo(map);
+
+            if ($(window).width() < 626) {
+                map.fitBounds(geojson.getBounds())
+            }
         }<% if (templateMultipleGeoJSON) { %>,
         // Add GeoJSON to map
         geoJSONTwo: function() {
@@ -364,12 +362,10 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                             var layer_marker = e.target;
 
                             $('.popup_cover').show();
-                            $('.toggle_popup').show();
-                            $('.popup').show();
                             
                             <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>// Go through first JSON file
                                 // And create popups
-                                var popup_header = '<div class="popup_header">' + context[num].brewery + ' County</div>';
+                                var popup_header = context[num].brewery;
                                 var popup_content = '<div class="popup_content_box">'
                                 popup_content += "<strong>Address:</strong> " + context[num].address + "<br />";
                                 popup_content += "<strong>City:</strong> " + context[num].city + "<br />";
@@ -379,15 +375,18 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                             <% if (templateMultipleJSONMap) { %>// Go through second JSON file
                                 // And create popups
                             } else if (context === json_data_two ) {
-                                var popup_header = '<div class="popup_header">' + context[num].winery + ' County</div>';
+                                var popup_header = context[num].winery;
                                 var popup_content = '<div class="popup_content_box">'
                                 popup_content += "<strong>Address:</strong> " + context[num].address_city + "<br />";
                                 popup_content += "<strong>Phone:</strong> " + context[num].phone + "<br />";
                                 popup_content += '</div>';
                             }<% } %>
                             
-                            $('.popup_header').html(popup_header);
-                            $('.popup_content').html(popup_content);
+                            $('#popup-box').find('.popup_header').html(popup_header);
+                            $('#popup-box').find('.popup_content').html(popup_content);
+    
+                            $('#popup-box').find('.toggle_popup').show();
+                            $('#popup-box').show();
                         // End popup function
                         }
                         // Open the popup function when one of our markers is clicked
@@ -569,8 +568,8 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
             // Only visible on mobile
             var isVisibleDescription = false;
             // Grab legend content
-            var legendContentHeader = $('#legend_mobile_header').html() + $('#legend-text').html();
-            var legendContentEtc = $('#legend_mobile_colors').html() + $('#credits').html();
+            var legendContentHeader = '<div class="popup_header">' + $('#legend_mobile_header').html() + '</div>' + $('#legend-text').html();
+            var legendContentEtc = <% if (templateColors) { %>$('#legend_mobile_colors').html() + <% } %>$('#credits').html();
             $('.toggle_description').click(function () {
                 // console.log('isVisibleDescription: ', isVisibleDescription);
                 if (isVisibleDescription === false) {
@@ -616,6 +615,15 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                 $('.popup').hide();
             });
         // Close responsive legend
+        },
+        // Toggle map, table buttons
+        toggleTable: function() {
+            $('#toggle-table').click(function () {
+                $('.popup_cover').show();
+                $('.toggle_popup').show();
+                $('#content-box').show();
+            });
+        // Close toggle table button
         }
     // Close return
     }

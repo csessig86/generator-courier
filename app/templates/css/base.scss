@@ -68,6 +68,12 @@ hr {
     margin-bottom: 5px;
 }
 
+.popup_header {
+    background-color: #eee;
+    padding: 10px 0 10px 5px;
+    border-bottom: 1px dotted #333;
+}
+
 .popup_box_header {
     font-family: Georgia;
     font-size: 16px;
@@ -149,10 +155,10 @@ hr {
 }
 
 
-<% if (templateDataTables || templateRegularTable) { %>// Return to top nav box
+// Return to top nav box
 #footer-table {
     display: none;
-    bottom: 0;
+    <% if (templateMap) { %>bottom: 4%;<% } else { %>bottom: 0;<% } %>
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
@@ -163,4 +169,4 @@ hr {
     box-shadow: 0 0px 3px 0 #444444;
     border-top: 1px solid #ccc;
     cursor: pointer;
-}<% } %>
+}
