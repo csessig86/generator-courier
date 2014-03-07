@@ -61,21 +61,21 @@
             </thead>
             <tbody>
                 <% if (templateTabletop) { %>
-                    {{#each body}}
+                {{#each body}}
                 <% } else { %>
-                    {{#each .}}
+                {{#each .}}
                 <% } %>
-                <tr>
-                    <% if (!templateTabletop && !templateJSONMap && templateGeoJSON) { %>
-                    <td class="sorting_1">{{ properties.NAMELSAD10 }}</td>
-                    <td>{{ properties.TOTAL }}</td>
-                    <td>{{ properties.PERCENTBEL }}</td>
-                    <td>{{ properties.PERCENTBE2 }}</td>
-                    <% } else { %><td class="sorting_1">{{ brewery }}</td>
-                    <td>{{ address }}</td>
-                    <td>{{ city }}</td>
-                    <td>{{ phone }}</td><% } %>
-                </tr>
+                    <tr>
+                        <% if (!templateTabletop && !templateJSONMap && templateGeoJSON) { %>
+                        <td class="sorting_1">{{ properties.NAMELSAD10 }}</td>
+                        <td>{{ properties.TOTAL }}</td>
+                        <td>{{ properties.PERCENTBEL }}</td>
+                        <td>{{ properties.PERCENTBE2 }}</td>
+                        <% } else { %><td class="sorting_1">{{ brewery }}</td>
+                        <td>{{ address }}</td>
+                        <td>{{ city }}</td>
+                        <td>{{ phone }}</td><% } %>
+                    </tr>
                 {{/each}}
             </tbody>
         </table><% } else { %><% if (templateTabletop) { %>
@@ -249,7 +249,7 @@
     <div id="content-box" class="popup box-shadow">
         <a id="top"></a>
         <div class="x_button toggle_popup btn icon-remove"></div>
-        <div class="popup_header">Test project</div>
+        <div class="popup_header"><%= nameProject %></div>
 
         <p>Use the options below to search through the table.</p>
 

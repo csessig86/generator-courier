@@ -159,6 +159,7 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
             }
 
             // Information for the base tile
+            // More options: http://leaflet-extras.github.io/leaflet-providers/preview/
             var defaultLayer = L.tileLayer.provider('Esri.NatGeoWorldMap').addTo(map);
         }<% if (templateGeoJSON) { %>,
         // Add GeoJSON to map
