@@ -215,6 +215,13 @@
 }<% } %>
 
 <% if (templateDataTables) { %>// DataTable styles
+@media (max-width: 625px)  {
+    #content-table_wrapper > div:nth-child(3) > div:nth-child(1), #content-table_wrapper > div:nth-child(3) > div:nth-child(2) {
+        width: 100%;
+        margin: 0px;
+    }
+}
+
 @media (max-width: 475px)  {
     .dataTables_wrapper {
         .row-fluid .span6 {
