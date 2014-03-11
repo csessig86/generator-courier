@@ -32,6 +32,11 @@ define(['jquery', 'handlebars'], function ($, handlebars) {
                 if ($(window).width() < 476) {
                     datatables.mobileDatatablesOptions();
                 }
+            });<% } else if (templateRegularTable) { %>
+            // Load fixed header
+            require(['app/load-table-header'], function(header){
+                header.offsetTableHeader();
+                header.reloadOffsetTableHeader();
             });<% } %>
         // Close loadHandlebarsTemplate
         }

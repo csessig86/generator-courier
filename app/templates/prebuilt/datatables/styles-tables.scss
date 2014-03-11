@@ -1,0 +1,105 @@
+//* Universals *//
+
+@mixin box-shadow($shadow) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    -ms-box-shadow: $shadow;
+    -o-box-shadow: $shadow;
+    box-shadow: $shadow;
+}
+
+@mixin border-bottom-radius($radius) {
+    -webkit-border-bottom-left-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-radius-bottomleft: $radius;
+    -moz-border-radius-bottomright: $radius;
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+<% if (templateDataTables) { %>/* The wrapper */
+.dataTables_wrapper {
+    .input, textarea, select {
+        line-height: 25px;
+    }
+
+    select {
+        width: 75px;
+    }
+
+    input {
+        width: 150px;
+    }
+
+    .dataTables_length, .dataTables_info {
+        padding-left: 10px;
+    }
+
+    .dataTables_length select {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+
+    .dataTables_filter, .dataTables_paginate {
+        padding-right: 10px;
+    }
+
+    /* The table */
+    .dataTable {
+        table {
+            float: left;
+        }
+        
+        thead th {
+            text-align: left;
+            padding: 5px 18px 5px 10px;
+            border-bottom: 1px solid black;
+            font-weight: bold;
+            font-size: 15px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    }
+}<% } %>
+
+
+#header-fixed {
+    position: fixed;
+    top: 40px;
+    display:none;
+    background-color: #FFF;
+    z-index: 10;
+}
+
+/* The table */
+<% if (templateDataTables) { %>.dataTable, <% } %>#header-fixed {
+    thead th {
+        text-align: left;
+        padding: 5px 18px 5px 10px;
+        border-bottom: 1px solid black;
+        font-weight: bold;
+        font-size: 15px;
+        vertical-align: middle;
+    }
+}
+
+<% if (templateDataTables) { %>/* The table header */
+.dataTable {
+    thead th {
+        cursor: pointer
+    }
+}<% } else { %>/* The table header */
+#header-fixed, #content-table {
+    thead th {
+        width: 25%;
+    }
+}<% } %>
+
+#header-fixed {
+    @include box-shadow(0 1px 2px 0 #444444);
+
+    thead th {
+        cursor: default;
+        @include border-bottom-radius(0px);
+    }
+}

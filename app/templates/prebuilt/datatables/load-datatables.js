@@ -72,6 +72,13 @@ define(['dataTables.bootstrap-requirejs'], function (datatables) {
                 ]
             // Close dataTable load
             });
+
+            // Load fixed header
+            require(['app/load-table-header'], function(header){
+                header.offsetTableHeader();
+                header.reloadOffsetTableHeader();
+            });
+
         // Close loadDataTables
         },
         // Mobile styles for DataTables

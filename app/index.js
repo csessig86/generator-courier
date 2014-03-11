@@ -338,10 +338,13 @@ CourierGenerator.prototype.askFor = function askFor() {
         
         // Push DataTables styles
         if (props.templateDataTables || props.templateMap) {
-            // Lib files
+            // Lib file
             includesCSS.push({ name: 'lib/datatables-custom.css' });
-            // Custom files
-            baseCSS.push({ name: 'styles-datatables.css' });
+        }
+
+        if (props.templateDataTables || props.templateRegularTable) {
+            // Custom file
+            baseCSS.push({ name: 'styles-tables.css' });
         }
 
         // Push map styles if selected
@@ -424,10 +427,13 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
     // DataTables
     if (this.templateDataTables) {
         this.copy('prebuilt/datatables/lib/datatables-custom.css', 'app/css/lib/datatables-custom.css');
-        this.copy('prebuilt/datatables/styles-datatables.scss', 'app/scss/styles-datatables.scss');
-        
         this.copy('prebuilt/datatables/lib/dataTables.bootstrap-requirejs.js', 'app/js/lib/dataTables.bootstrap-requirejs.js');
         this.copy('prebuilt/datatables/load-datatables.js', 'app/js/app/load-datatables.js');
+    }
+
+    if (this.templateDataTables || this.templateRegularTable) {
+        this.copy('prebuilt/datatables/styles-tables.scss', 'app/scss/styles-tables.scss');
+        this.copy('prebuilt/datatables/load-table-header.js', 'app/js/app/load-table-header.js');
     }
 
     // Tabletop, non-Tabletop JS files

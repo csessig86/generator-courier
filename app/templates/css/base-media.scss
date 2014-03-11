@@ -44,7 +44,7 @@
         display: none;
     }
 
-  <% if (templateMap) { %>//* Map *//
+    <% if (templateMap) { %>//* Map *//
     #map {
         border: 0 solid #737373;
         top: 0;
@@ -177,12 +177,13 @@
             border-bottom: 15px solid #FFF;
         }
 
-        .sorting_1 {
-            font-size: 14px;
-            font-weight: bold
+        td {
+            background-color: #f9f9f9;
         }
 
-        tr.odd td.sorting_1 {
+        td:first-child {
+            font-size: 14px;
+            font-weight: bold;
             background-color: #EAEBFF;
         }
 

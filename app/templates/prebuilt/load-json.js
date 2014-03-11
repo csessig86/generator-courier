@@ -16,8 +16,7 @@ define(['jquery'], function ($) {
                 $("#content-box tbody").append( output_json );<% } else { %>
                 var output_json = "<p>" + json_data[num_json]["brewery"] + "</p>";
 
-                $("#content-box").append( output_json );
-                <% } %>
+                $("#content-box").append( output_json );<% } %>
             // Close for loop inside loadHandlebarsTemplate
             }
 
@@ -28,6 +27,11 @@ define(['jquery'], function ($) {
                 if ($(window).width() < 476) {
                     datatables.mobileDatatablesOptions();
                 }
+            });<% } else if (templateRegularTable) { %>
+            // Load fixed header
+            require(['app/load-table-header'], function(header){
+                header.offsetTableHeader();
+                header.reloadOffsetTableHeader();
             });<% } %>
         // Close loadJSONdata
         }

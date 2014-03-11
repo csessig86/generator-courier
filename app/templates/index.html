@@ -50,6 +50,7 @@
     <% if (templateHandlebars) { %><!-- Templates -->
     <script id="sections-template" type="text/x-handlebars-template">
         <% if (templateDataTables || templateRegularTable) { %>
+        <table id="header-fixed" class="table table-striped table-bordered dataTable"></table>
         <table id="content-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -253,7 +254,9 @@
 
         <p>Use the options below to search through the table.</p>
 
-        <% if (!templateHandlebars && !templateTabletop) { %><table id="content-table" class="table table-striped table-bordered">
+        <% if (!templateHandlebars && !templateTabletop) { %>
+        <table id="header-fixed" class="table table-striped table-bordered dataTable"></table>
+        <table id="content-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Category 1</th>
@@ -306,7 +309,9 @@
         <div id="content-box">
             <br />
             <br />
-            <% if (!templateHandlebars && templateDataTables || !templateHandlebars && templateRegularTable) { %><table id="content-table" class="table table-striped table-bordered">
+            <% if (!templateHandlebars && templateDataTables || !templateHandlebars && templateRegularTable) { %>
+            <table id="header-fixed" class="table table-striped table-bordered dataTable"></table>
+            <table id="content-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Category 1</th>
