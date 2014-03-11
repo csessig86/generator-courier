@@ -342,7 +342,7 @@ CourierGenerator.prototype.askFor = function askFor() {
             includesCSS.push({ name: 'lib/datatables-custom.css' });
         }
 
-        if (props.templateDataTables || props.templateRegularTable) {
+        if (props.templateMap || props.templateDataTables || props.templateRegularTable) {
             // Custom file
             baseCSS.push({ name: 'styles-tables.css' });
         }
