@@ -157,8 +157,10 @@ hr {
 
 // Return to top nav box
 #footer-table {
+    clear: both;
+    z-index: 1000;
     display: none;
-    <% if (templateMap) { %>bottom: 1%;<% } else { %>bottom: 0;<% } %>
+    bottom: 0;
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;

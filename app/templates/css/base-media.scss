@@ -116,10 +116,9 @@
 
     //* Toggle map, table buttons *//
     #toggle-map-table {
-        top: 60px;
-        bottom: auto;
-        right: 10px;
-        left: auto;
+        bottom: 60px;
+        left: 10px;
+        right: auto;
     }<% } %>
 
     <% if (templateColors) { %>.legend_colors {
@@ -213,6 +212,12 @@
         td:nth-of-type(4):before { content: "Category 4:" }
 
     }
+    
+    <% if (!templateMap) { %>/* Show footer */
+    #footer-table {
+        display: block;
+    }<% } %>
+
 }<% } %>
 
 <% if (templateDataTables) { %>// DataTable styles
@@ -271,10 +276,6 @@
                 padding-bottom: 2%;
             }
         }
-    }
-
-    #footer-table {
-        display: block;
     }
 }<% } %>
 

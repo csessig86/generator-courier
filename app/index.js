@@ -365,7 +365,7 @@ CourierGenerator.prototype.askFor = function askFor() {
         }
 
          // Default CSS media attributes
-         baseCSS.push({ name: 'base-media.css' });
+         // baseCSS.push({ name: 'base-media.css' });
 
         cb();
     }.bind(this));

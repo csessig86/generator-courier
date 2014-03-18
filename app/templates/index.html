@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="css/<%= v.name %>" /><% }); %>
     <% _.each(baseCSS, function(v) { %>
     <link rel="stylesheet" href="css/<%= v.name %>" /><% }); %>
+    <link rel="stylesheet" href="css/base-media.css" />
     <link rel="stylesheet" href="css/styles.css">
     <!-- endbuild -->
 
@@ -112,7 +113,7 @@
 			You must have JavaScript enabled to view this page.
 		</div>
 	</noscript>
-
+    
     <% if (templateMap) { %><div id="mobile_header" class="header-footer box-shadow">
         <div id="mobile_headers">
             <div class="toggle_description btn icon-info-sign"></div>
@@ -141,17 +142,16 @@
         </div>
     </div><% } %>
     <div id="header-footer-geocoder" class="header-footer box-shadow-bottom">
-        <a href="http://wcfcourier.com/">
+        <a href="http://wcfcourier.com/" target="_blank">
             <img alt="Waterloo-Cedar Falls Courier" id="courier-logo" src="imgs/WCFCourier_LOGO_BW_300px.png" />
         </a>
 
         <% if (templateMap) { %><div id="geocoder_box">
             <form id="geocoder"></form>
-        </div><% } else { %><h4><%= nameProject %></h4><% } %>
+        </div><% } else { %><a href="#top"><h4><%= nameProject %></h4></a><% } %>
     </div>
 
-    <!-- MAP STYLES -->
-    <% if (templateMap) { %><div id="hide_show_legend">
+    <% if (templateMap) { %><!-- MAP STYLES --><div id="hide_show_legend">
         <div class="hide_legend">
             <div class="icon-sort-up"></div>
             <div class="hide_show_legend_text">Hide</div>
@@ -249,6 +249,7 @@
     <!-- Box where our table will go -->
     <div id="content-box" class="popup box-shadow">
         <a id="top"></a>
+
         <div class="x_button toggle_popup btn icon-remove"></div>
         <div class="popup_header"><%= nameProject %></div>
 
@@ -267,15 +268,9 @@
             </thead>
             <tbody></tbody>
         </table><% } %>
-
-        <a href="#top">
-            <div id='footer-table' class='header-footer'>
-                <div class="icon-arrow-up icon-white"></div><br />
-                    Return to Top
-                </div>
-            </div>
-        </a>
     </div><% } else { %><!-- NON-MAP STYLES -->
+    <a id="top"></a>
+
     <div id="main-page-box">
         <div id="top-box">
             <div id="share-main" class="share">
@@ -340,7 +335,7 @@
   
     <div class="popup_cover"></div>
 
-    <% if (templateDataTables && !templateMap || templateRegularTable && !templateMap) { %><a href="#top">
+    <% if (templateMap || templateDataTables || templateRegularTable) { %><a href="#top">
         <div id='footer-table' class='header-footer'>
             <div class="icon-arrow-up icon-white"></div><br />
                 Return to Top

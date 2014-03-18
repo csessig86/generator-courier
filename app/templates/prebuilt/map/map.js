@@ -614,6 +614,7 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                 $('.popup_cover').hide();
                 $('.toggle_popup').hide();
                 $('.popup').hide();
+                $('#footer-table').hide();
             });
         // Close responsive legend
         },
@@ -623,6 +624,9 @@ define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?
                 $('.popup_cover').show();
                 $('.toggle_popup').show();
                 $('#content-box').show();
+                if ($(window).width() < 576) {
+                    $('#footer-table').show();
+                }
             });
         // Close toggle table button
         }
