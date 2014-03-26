@@ -3,7 +3,12 @@ var json_data = {
     "body": []
 };
 
-define(['jquery', 'tabletop'<% if (templateMap) { %>, 'leaflet.awesome-markers', <% } %><% if (templateMarkerCluster) { %>, 'leaflet.markercluster-custom-src'<% } %>], function () {
+define([
+    'jquery',
+    <% if (templateMap) { %>'leaflet.awesome-markers',<% } %>
+    <% if (templateMarkerCluster) { %>'leaflet.markercluster-custom-src',<% } %>
+    'tabletop'
+], function () {
     return {
         initializeTabletopLoad: function() {
             // Here's the Tabletop feed

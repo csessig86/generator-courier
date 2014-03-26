@@ -11,11 +11,18 @@ require.config({
 		'leaflet': {
 			exports: 'L'
 		},
+		underscore: {
+      		exports: '_'
+    	},
+    	backbone: {
+      		exports: "Backbone"
+    	},
 		'leaflet-providers' : ['leaflet'],
 		'leaflet.awesome-markers' : ['leaflet-providers'],
 		'jquery.geocodify': ['jquery']<% } %><% if (templateHandlebars) { %>,
 		'tabletop': ['handlebars']<% } %><% if (templateMarkerCluster) { %>,
-		'leaflet.markercluster-custom-src': ['leaflet']<% } %>
+		'leaflet.markercluster-custom-src': ['leaflet']<% } %>,
+		'backbone': ['json2', 'underscore', 'jquery']
 	}
 });
 

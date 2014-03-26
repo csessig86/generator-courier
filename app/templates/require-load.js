@@ -2,19 +2,12 @@
 require(['app/load-tabletop'], function(tabletop){
 	tabletop.initializeTabletopLoad();
 });<% } %>
-
 <% if (templateHandlebars && !templateTabletop) { %>// Handlebars load
-require(['app/load-handlebars'], function(handlebars){
-	handlebars.loadHandlebarsTemplate();
-});<% } %>
-
+require(['app/load-handlebars'], function(){});<% } %>
 <% if (!templateTabletop && !templateHandlebars && !templateMap || templateJSONMap) { %>// JSON load
-require(['app/load-json'], function(json){
-	json.loadJSONdata();
-});<% } %>
-
+require(['app/load-json'], function(){});<% } %>
 <% if (templateMap) { %>// Map options load
-require(['app/map'], function(map){
+require(['app/load-map'], function(map){
 	map.baseMap();
     map.geocode();
 	map.responsiveLegend();
@@ -80,9 +73,7 @@ require(['app/map'], function(map){
 	});
 	<% } %>
 });<% } %>
-
 require(['app/script'], function(){ });
-
 <% if (!templateMap) { %>// Format if page is within iFrame
 require(['app/load-iframe'], function(iframe){
 	iframe.formatiFrame();

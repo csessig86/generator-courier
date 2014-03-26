@@ -95,7 +95,10 @@ module.exports = function (grunt) {
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
                     'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
                     'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
-                    'handlebars.js': 'handlebars/handlebars.js'<% } %>
+                    'handlebars.js': 'handlebars/handlebars.js'<% } %>,
+                    'json2.js': 'json/json2.js',
+                    'underscore.js': 'underscore/underscore.js',
+                    'backbone.js': 'backbone/backbone.js'
                 }
             },
             requirejs: {
@@ -176,7 +179,7 @@ module.exports = function (grunt) {
                     paths: {
                         'require': '../require',
                         'script': '../app/script'<% if (templateMap) { %>,
-                        'map': '../app/map'<% } %><% if (templateTabletop) { %>,
+                        'load-map': '../app/load-map'<% } %><% if (templateTabletop) { %>,
                         'load-tabletop': '../app/load-tabletop'<% } %><% if (templateHandlebars) { %>,
                         'load-handlebars': '../app/load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
                         'load-json': '../app/load-json'<% } %><% if (templateDataTables) { %>,
@@ -188,7 +191,7 @@ module.exports = function (grunt) {
                             name: 'script',
                             include: [
                                 'script'<% if (templateMap) { %>,
-                                'map'<% } %><% if (templateTabletop) { %>,
+                                'load-map'<% } %><% if (templateTabletop) { %>,
                                 'load-tabletop'<% } %><% if (templateHandlebars) { %>,
                                 'load-handlebars'<% } %><% if (!templateTabletop && !templateHandlebars && !templateMap) { %>,
                                 'load-json'<% } %><% if (templateDataTables) { %>,

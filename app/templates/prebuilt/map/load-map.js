@@ -131,15 +131,17 @@ function styleGeoJSON(feature) {
     }
 };<% } %>
 
-<% if (templateMarkerCluster && templateTabletop) { %>
-define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?sensor=false', 'leaflet.awesome-markers', 'leaflet.markercluster-custom-src', 'tabletop'], function ($, leaflet, cluster, tabletop) {
-<% } else if (templateTabletop) { %>
-define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?sensor=false', 'leaflet.awesome-markers', 'tabletop'], function ($, leaflet, tabletop) {
-<% } else if (templateMarkerCluster) { %>
-define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?sensor=false', 'leaflet.awesome-markers', 'leaflet.markercluster-custom-src'], function ($, leaflet, cluster) {
-<% } else { %>
-define(['jquery', 'jquery.geocodify', 'async!http://maps.google.com/maps/api/js?sensor=false', 'leaflet.awesome-markers'], function ($, leaflet) {
-<% } %>
+// Our dependencies
+define([
+    'jquery',
+    'jquery.geocodify',
+    'async!http://maps.google.com/maps/api/js?sensor=false',
+    'leaflet.awesome-markers',
+    <% if (templateMarkerCluster) { %>'leaflet.markercluster-custom-src',<% } %>
+    <% if (templateTabletop) { %>'tabletop',<% } %>
+    'underscore',
+    'backbone'
+], function () {
 
     var map;
     var json_group = new L.FeatureGroup();

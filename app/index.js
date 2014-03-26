@@ -400,7 +400,7 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     // Copy over map styles if selected
     if (this.templateMap) {
-        this.copy('prebuilt/map/map.js', 'app/js/app/map.js');
+        this.copy('prebuilt/map/load-map.js', 'app/js/app/load-map.js');
         this.copy('prebuilt/map/lib/jquery.geocodify.js', 'app/js/lib/jquery.geocodify.js');
         this.copy('prebuilt/map/styles-map.scss', 'app/scss/styles-map.scss');
         this.directory('prebuilt/map/awesome-markers/images', 'app/css/lib/images');

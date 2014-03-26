@@ -1,26 +1,39 @@
-define(['jquery'], function ($) {
-    return {
-        loadJSONdata: function() {
-            // This loop will spit out JSON data
-            for (num_json = 0; num_json < json_data.length; ++num_json) {
-
-                // Determine if we are rendering the template at the beginning
-                // Or the end of the DIV
-                <% if (templateDataTables || templateRegularTable) { %>var output_json = "<tr>";
-                output_json += "<td class='sorting_1'>" + json_data[num_json]["brewery"] + "</td>";
-                output_json += "<td>" + json_data[num_json]["address"] + "</td>";
-                output_json += "<td>" + json_data[num_json]["city"] + "</td>";
-                output_json += "<td>" + json_data[num_json]["phone"] + "</td>";
-                output_json += "</tr>";
-
-                $("#content-box tbody").append( output_json );<% } else { %>
-                var output_json = "<p>" + json_data[num_json]["brewery"] + "</p>";
-
-                $("#content-box").append( output_json );<% } %>
-            // Close for loop inside loadHandlebarsTemplate
-            }
-
-            <% if (templateDataTables) { %>// Datatables load
+define([
+    'jquery',
+    'underscore',
+    'backbone'
+], function ($, _, Backbone) {
+    // Set up view for JSON data
+    JSONDataView = Backbone.View.extend({
+        <% if (templateDataTables || templateRegularTable) { %>// What we're appending to
+        el: '#content-box tbody',<% } else { %>// What we're appending to
+        el: '#content-box',
+        <% } %>
+        
+        initialize: function() {
+            this.render();
+            <% if (templateDataTables || templateRegularTable) { %>this.tableLoad();<% } %>
+        },
+        render: function() {
+            var el = this.$el;
+            // Loop through our JSON file
+            _.each(json_data, function(element, num_json) {
+                // Build our table
+                <% if (templateDataTables || templateRegularTable) { %>var output_json = '<tr>';
+                output_json += "<td class='sorting_1'>" + element["brewery"] + "</td>";
+                output_json += "<td>" + element["address"] + "</td>";
+                output_json += "<td>" + element["city"] + "</td>";
+                output_json += "<td>" + element["phone"] + "</td>";
+                output_json += '</tr>';<% } else { %>
+                var output_json = '<p>' + element["brewery"] + '</p>';<% } %>
+                // Append to DOM
+                el.append( output_json );
+            }, this);
+            
+            return this;
+        },<% if (templateDataTables || templateRegularTable) { %>
+        tableLoad: function() {
+            <% if (templateDataTables && !templateHandlebars) { %>// Datatables load
             require(['app/load-datatables'], function(datatables){
                 datatables.loadDataTables();
                 // For mobile load
@@ -33,8 +46,11 @@ define(['jquery'], function ($) {
                 header.offsetTableHeader();
                 header.reloadOffsetTableHeader();
             });<% } %>
-        // Close loadJSONdata
-        }
-    // Close return
-    }
+
+            return this;
+        }<% } %>
+    });
+
+    // Fire it off
+    jsondataview = new JSONDataView();
 });
