@@ -185,7 +185,8 @@ define([
         layer_geojson.bindPopup(popup_content);<% } %>
     };<% } %>
 
-    //Our Require.js functions
+    // Our Require.js functions
+    // Called from require-load.js file
     return {
         // Set intial view of map
         baseMap: function() {
@@ -611,71 +612,88 @@ define([
             });
         // Close geocode
         },
-        // The legend
-        responsiveLegend: function() {
-            // Toggle for description and X buttons
-            // Only visible on mobile
+        // The legend and table view
+        legendTableView: function() {
+            // Defaults
+            // Mobile legend box not displayed
             var isVisibleDescription = false;
-            // Grab legend content
-            var legendContentHeader = $('#legend_mobile_header').html();
-            var legendContentEtc = $('#legend-text').html() + <% if (templateColors) { %>$('#legend_mobile_colors').html() + <% } %>$('#credits').html();
-            $('.toggle_description').click(function () {
-                if (isVisibleDescription === false) {
-                    $('.description_box_cover').show();
-                    $('.description_box_text_header').html(legendContentHeader);
-                    $('.description_box_text_etc').html(legendContentEtc);
-                    $('.description_box').show();
-                    isVisibleDescription = true;
-                } else {
-                    $('.description_box').hide();
-                    $('.description_box_cover').hide();
-                    isVisibleDescription = false;
-                }
-            });
-
-
-            // Toggle for show, hide legend
-            // Only visible on desktop
+            // 'Hide legend' button displayed
             var isHideButton = true;
-            $('#hide_show_legend').click(function () {
-                // console.log(isHideButton);
-                if (isHideButton === true) {
-                    $('.hide_legend').hide();
-                    $('.show_legend').show();
-                    $('#legend').stop(true, false).slideUp();
-                    $('#hide_show_legend').addClass('box-shadow');
-                    $('.hide_show_legend').show();
-                    isHideButton = false;
-                } else {
-                    $('.show_legend').hide();
-                    $('.hide_legend').show();
-                    $('#legend').stop(true, false).slideDown();
-                    $('#hide_show_legend').removeClass('box-shadow');
-                    $('.hide_show_legend').show();
-                    isHideButton = true;
-                }
-            });
 
-            // Close popup button
-            $('.popup').click('.toggle_popup', function () {
-                $('.popup_cover').hide();
-                $('.toggle_popup').hide();
-                $('.popup').hide();
-                $('#footer-table').hide();
-            });
-        // Close responsive legend
-        },
-        // Toggle map, table buttons
-        toggleTable: function() {
-            $('#toggle-table').click(function () {
-                $('.popup_cover').show();
-                $('.toggle_popup').show();
-                $('#content-box').show();
-                if ($(window).width() < 576) {
-                    $('#footer-table').show();
+            // This view runs all our click events for our legend
+            // And the 'View table' button
+            LegendTableView = Backbone.View.extend({
+                el: 'body',
+
+                events: {
+                    "click .toggle_description": "mobileLegendDisplay",
+                    "click #hide_show_legend": "hideShowDesktopLegend",
+                    "click .popup .toggle_popup": "closeLargePopup",
+                    "click #toggle-table": "openTablePopup"
+                },
+
+                // Toggle for description and X buttons
+                // Only visible on mobile
+                mobileLegendDisplay: function() {
+                    var legendContentHeader = $('#legend_mobile_header').html();
+                    var legendContentEtc = $('#legend-text').html() + $('#legend_mobile_colors').html() + $('#credits').html();
+
+                    if (isVisibleDescription === false) {
+                        $('.description_box_cover').show();
+                        $('.description_box_text_header').html(legendContentHeader);
+                        $('.description_box_text_etc').html(legendContentEtc);
+                        $('.description_box').show();
+
+                        isVisibleDescription = true;
+                    } else {
+                        $('.description_box').hide();
+                        $('.description_box_cover').hide();
+                        isVisibleDescription = false;
+                    }
+                },
+                // Toggle for show, hide legend
+                // Only visible on desktop
+                hideShowDesktopLegend: function() {
+                    if (isHideButton === true) {
+                        $('.hide_legend').hide();
+                        $('.show_legend').show();
+                        $('#legend').stop(true, false).slideUp();
+                        $('#hide_show_legend').addClass('box-shadow');
+                        $('.hide_show_legend').show();
+                        
+                        isHideButton = false;
+                    } else {
+                        $('.show_legend').hide();
+                        $('.hide_legend').show();
+                        $('#legend').stop(true, false).slideDown();
+                        $('#hide_show_legend').removeClass('box-shadow');
+                        $('.hide_show_legend').show();
+                        
+                        isHideButton = true;
+                    }
+                },
+                // This closes our large popups
+                closeLargePopup: function() {
+                    $('.popup_cover').hide();
+                    $('.toggle_popup').hide();
+                    $('.popup').hide();
+                    $('#footer-table').hide();
+                },
+                // This opens our table popup
+                openTablePopup: function() {
+                    $('.popup_cover').show();
+                    $('.toggle_popup').show();
+                    $('#content-box').show();
+                    
+                    // Mobile footer button
+                    if ($(window).width() < 576) {
+                        $('#footer-table').show();
+                    }
                 }
             });
-        // Close toggle table button
+            // This puts view on the page
+            legendtableview = new LegendTableView();
+        // Close legend and table view
         }
     // Close return
     }

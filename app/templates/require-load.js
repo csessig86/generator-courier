@@ -13,8 +13,8 @@ require(['app/load-json'], function(){});<% } %>
 require(['app/load-map'], function(map){
 	map.baseMap();
     map.geocode();
-	map.responsiveLegend();
-	map.toggleTable();
+	map.legendTableView();
+	
 	<% if (templateGeoJSON) { %>map.geoJSON();<% } %>
 	<% if (templateMultipleGeoJSON) { %>map.geoJSONTwo();
 	map.removeSecondGeoJSON();<% } %>
