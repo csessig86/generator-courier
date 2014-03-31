@@ -220,6 +220,20 @@
 
 }<% } %>
 
+
+<% if (templateDropdownGeoJSONAttributes) { %>@media (max-width: 525px)  {
+    #mobile_headers select {
+        width: 75%;
+    }
+}
+
+@media (max-width: 425px)  {
+    #mobile_headers select {
+        width: 98%;
+    }
+}<% } %>
+
+
 <% if (templateDataTables) { %>// DataTable styles
 @media (max-width: 625px)  {
     #content-table_wrapper > div:nth-child(3) > div:nth-child(1), #content-table_wrapper > div:nth-child(3) > div:nth-child(2) {

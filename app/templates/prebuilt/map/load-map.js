@@ -2,135 +2,6 @@
 MAP TEMPLATE, FUNCTIONS & MOUSE EVENTS GO HERE
 */
 
-/* global $:false, L:false, google: false, navigator: false, location: false */
-
-/*
-BASE MAP
-*/
-
-// Add commas to numbers
-function numberFormat(nStr){
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1))
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    return x1 + x2;
-}
-<% if (templateGeoJSON) { %>/*
-GEOJSON STYLES
-*/
-
-// Highlight style
-function highlightPolygons(e) {
-    var layer_geojson = e.target;
-    layer_geojson.setStyle({
-        "color": "#333",
-        "weight": 2,
-        "fillOpacity": 0.95,
-        "opacity": 1,
-     });
-
-    if (!L.Browser.ie && !L.Browser.opera) {
-        layer_geojson.bringToFront();
-    }
-};
-
-// Reset the polygon styles
-function resetHighlightPolygons(e) {
-    var layer_geojson = e.target;
-    layer_geojson.setStyle({
-        "color": "#FFFFFF",
-        "weight": 1,
-        "opacity": 0.8,
-        "fillOpacity": 0.85,
-    });
-
-    if (!L.Browser.ie && !L.Browser.opera) {
-        layer_geojson.bringToBack();
-    }
-};
-
-// Set colors based on their likelihood numbers
-function getColor(m) {
-    return m < 3 ? "#FEF0D9" :
-    m < 6 ? "#FDD49E" :
-    m < 9 ? "#FDBB84" :
-    m < 12 ? "#FC8D59" :
-    m < 15 ? "#EF6548" :
-    m < 18 ? "#D7301F" :
-    m < 100 ? "#990000" :
-    "#CCC" ;
-}
-
-<% if (templateLargePopupGeoJSON) { %>// Our popup
-function popupGeoJSON(e) {
-    var layer_geojson = e.target;
-    var properties = layer_geojson.feature.properties;
-
-    $('.popup_cover').show();
-    
-    var popup_header = properties.NAMELSAD10;
-    var popup_content = '<div class="popup_content_box">'
-    
-    popup_content += '<p>Percentage of population in poverty: ' + numberFormat(parseInt(properties.PERCENTBEL)) + '%</p>';
-    popup_content += '<p>Percentage of males in poverty: ' + numberFormat(parseInt(properties.PERCENTBE3)) + '%</p>';
-    popup_content += '<p>Percentage of females in poverty: ' + numberFormat(parseInt(properties.PERCENTBE5)) + '%</p>';
-    popup_content += '</div>';
-
-    $('#popup-box').find('.popup_header').html(popup_header);
-    $('#popup-box').find('.popup_content').html(popup_content);
-    
-    $('#popup-box').find('.toggle_popup').show();
-    $('#popup-box').show();
-// End popup function
-} <% } %>
-
-// Set the mouseover, mouseout events
-function onEachFeature(feature, layer_geojson) {
-    layer_geojson.on({
-        mouseover: highlightPolygons,
-        mouseout: resetHighlightPolygons,
-        <% if (templateLargePopupGeoJSON) { %>click: popupGeoJSON<% } %>
-    });
-    
-    <% if (!templateLargePopupGeoJSON) { %>var properties = layer_geojson.feature.properties;
-    var popup_content = '<div class="popup_box" ' + ' id= "' + properties.NAMELSAD10 + '">';
-    popup_content = '<div class="popup_box_header">' + properties.NAMELSAD10 + '</div>';
-    popup_content += '<hr />';
-    popup_content += '<strong>Percentage of population in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBEL)) + '%<br />';
-    popup_content += '<strong>Percentage of males in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBE3)) + '%<br />';
-    popup_content += '<strong>Percentage of females in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBE5)) + '%';
-    popup_content += '</div>';
-    layer_geojson.bindPopup(popup_content);<% } %>
-};
-
-// Set color of each polygon
-function styleGeoJSON(feature) {
-    <% if (templateDropdownGeoJSONAttributes) { %>// Determine which item is selected in dropdown menu
-    // And show appropriate GeoJSON attributes
-    if ( $('#dropdownSelectAttributes_desktop').val() === 'option_one' ) {
-        var fill_color = getColor( parseInt(feature.properties.PERCENTBEL) );
-    } else if ( $('#dropdownSelectAttributes_desktop').val() === 'option_two' ) {
-        var fill_color = getColor( parseInt(feature.properties.PERCENTBE3) );
-    } else if ( $('#dropdownSelectAttributes_desktop').val() === 'option_three' ) {
-        var fill_color = getColor( parseInt(feature.properties.PERCENTBE5) );
-    }
-    <% } else { %>// Use one attribute in GeoJSON file to color
-    var fill_color = getColor( parseInt(feature.properties.PERCENTBEL) );
-    
-    <% } %>// Return our colors
-    return {
-        "color": "#FFFFFF",
-        "weight": 1,
-        "opacity": 0.8,
-        "fillOpacity": 0.85,
-        "fillColor": fill_color
-    }
-};<% } %>
-
 // Our dependencies
 define([
     'jquery',
@@ -139,16 +10,182 @@ define([
     'leaflet.awesome-markers',
     <% if (templateMarkerCluster) { %>'leaflet.markercluster-custom-src',<% } %>
     <% if (templateTabletop) { %>'tabletop',<% } %>
+    <% if (templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>'handlebars',<% } %>
     'underscore',
     'backbone'
 ], function () {
 
+    /*
+    OUR GLOBAL VARIABLES
+    */
     var map;
     var json_group = new L.FeatureGroup();
     var json_group_two = new L.FeatureGroup();
     <% if (templateMarkerCluster) { %>var marker_cluster_group = new L.MarkerClusterGroup();<% } %>
     L.Icon.Default.imagePath = 'css/images'
 
+
+    /*
+    OUR GLOBAL FUNCTIONS
+    */
+    // Add commas to numbers
+    function numberFormat(nStr){
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1))
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        return x1 + x2;
+    }
+
+    <% if (templateGeoJSON) { %>/*
+    GEOJSON STYLES
+    */
+
+    // Set colors based on their likelihood numbers
+    function getColor(m) {
+        return m < 3 ? "#FEF0D9" :
+        m < 6 ? "#FDD49E" :
+        m < 9 ? "#FDBB84" :
+        m < 12 ? "#FC8D59" :
+        m < 15 ? "#EF6548" :
+        m < 18 ? "#D7301F" :
+        m < 100 ? "#990000" :
+        "#CCC" ;
+    }
+
+    // Set color of each polygon
+    function styleGeoJSON(feature) {
+        <% if (templateDropdownGeoJSONAttributes) { %>// Determine which item is selected in dropdown menu
+        // And show appropriate GeoJSON attributes
+        if ( $('#dropdownSelectAttributes_desktop').val() === 'option_one' ) {
+            var fill_color = getColor( parseInt(feature.properties.PERCENTBEL) );
+        } else if ( $('#dropdownSelectAttributes_desktop').val() === 'option_two' ) {
+            var fill_color = getColor( parseInt(feature.properties.PERCENTBE3) );
+        } else if ( $('#dropdownSelectAttributes_desktop').val() === 'option_three' ) {
+            var fill_color = getColor( parseInt(feature.properties.PERCENTBE5) );
+        }<% } else { %>// Use one attribute in GeoJSON file to color
+        var fill_color = getColor( parseInt(feature.properties.PERCENTBEL) );<% } %>
+        
+        // Return our colors
+        return {
+            "color": "#FFFFFF",
+            "weight": 1,
+            "opacity": 0.8,
+            "fillOpacity": 0.85,
+            "fillColor": fill_color
+        }
+    };
+
+    <% if (templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>// Our large popups
+    function popupLargeOpen(el, content_array) {
+        // Create a view
+        PopupLargeView = Backbone.View.extend({
+            // Grab el from function parameters
+            el: el,
+
+            initialize: function(){
+                this.render();
+            },
+            render: function(){
+                var el = this.$el;
+                el.empty();
+
+                // Compile the template using Handlebars
+                var source = $('#popups-large-template').html();
+                var handlebarscompile = Handlebars.compile(source);
+                // Render the templates
+                
+                // The content in our JSON file
+                // We'll append to our Handlebars template
+                el.append( handlebarscompile(content_array) );
+                
+                // Show the right stuff
+                $('.popup_cover').show();
+                $('#popup-box').find('.toggle_popup').show();
+                $('#popup-box').show();
+
+                return this;
+            }
+        });
+        // This puts view on the page
+        popuplargeview = new PopupLargeView();
+    // End popup function
+    }<% } %>
+
+    // Set the mouseover, mouseout events
+    // For our GeoJSON polygons
+    function onEachFeature(feature, layer_geojson) {
+        layer_geojson.on({
+            // Highlight polygons
+            mouseover: function (e) {
+                var layer_geojson = e.target;
+                layer_geojson.setStyle({
+                    "color": "#333",
+                    "weight": 2,
+                    "fillOpacity": 0.95,
+                    "opacity": 1,
+                });
+                // Bring to front
+                if (!L.Browser.ie && !L.Browser.opera) {
+                    layer_geojson.bringToFront();
+                }
+            },
+            // Reset the polygon styles
+            mouseout: function (e) {
+                var layer_geojson = e.target;
+                layer_geojson.setStyle({
+                    "color": "#FFFFFF",
+                    "weight": 1,
+                    "opacity": 0.8,
+                    "fillOpacity": 0.85,
+                });
+                // Bring to front
+                if (!L.Browser.ie && !L.Browser.opera) {
+                    layer_geojson.bringToBack();
+                }
+            }<% if (templateLargePopupGeoJSON) { %>,
+            // Click event: Show large popup
+            click: function (e) {
+                // Grab the info from the polygon that was clicked
+                var layer_geojson = e.target;
+                var properties = layer_geojson.feature.properties;
+
+                // Here's the content we're using
+                var content_array = [{
+                    'header': properties.NAMELSAD10,
+                    'body': [{
+                        'title': 'Percentage of population in poverty',
+                        'value': numberFormat(parseInt(properties.PERCENTBEL)) + '%'
+                    },{
+                        'title': 'Percentage of males in poverty',
+                        'value': numberFormat(parseInt(properties.PERCENTBE3)) + '%'
+                    },{
+                        'title': 'Percentage of females in poverty',
+                        'value': numberFormat(parseInt(properties.PERCENTBE5)) + '%'
+                    }] 
+                }];
+
+                // This calls the function that creates the popup
+                popupLargeOpen('#popup-box', content_array);
+            }<% } %>
+        });
+        
+        <% if (!templateLargePopupGeoJSON) { %>// Show regular popup
+        var properties = layer_geojson.feature.properties;
+        var popup_content = '<div class="popup_box" ' + ' id= "' + properties.NAMELSAD10 + '">';
+        popup_content = '<div class="popup_box_header">' + properties.NAMELSAD10 + '</div>';
+        popup_content += '<hr />';
+        popup_content += '<strong>Percentage of population in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBEL)) + '%<br />';
+        popup_content += '<strong>Percentage of males in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBE3)) + '%<br />';
+        popup_content += '<strong>Percentage of females in poverty:</strong> ' + numberFormat(parseInt(properties.PERCENTBE5)) + '%';
+        popup_content += '</div>';
+        layer_geojson.bindPopup(popup_content);<% } %>
+    };<% } %>
+
+    //Our Require.js functions
     return {
         // Set intial view of map
         baseMap: function() {
@@ -316,6 +353,7 @@ define([
                             }
                         }
                     });
+
                     <% } else { %>// Create the regular marker
                     var layer_marker = new L.Marker(marker_location);
                     <% } %>
@@ -361,39 +399,46 @@ define([
                     // This will open a separate window for the popup
                     // That is nearly full screen
                     (function (num){
-                        function popup(e) {
-                            var layer_marker = e.target;
+                        // Grab the info from the marker that was clicked
+                        // Here's the content we're using
+                        <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
+                            content_array = [{
+                                'header': context[num].brewery,
+                                'body': [{
+                                    'title': 'Address',
+                                    'value': context[num].address
+                                },{
+                                    'title': 'City',
+                                    'value': context[num].city 
+                                },{
+                                    'title': 'Phone',
+                                    'value': context[num].phone
+                                },{
+                                    'title': 'Website',
+                                    'value': context[num].website
+                                }]
+                            }];
+                        <% if (templateMultipleJSONMap) { %>// Go through second JSON file
+                        // And create popups
+                        } else if (context === json_data_two ) {
+                            content_array = [{
+                                'header': context[num].winery,
+                                'body': [{
+                                    'title': 'Address',
+                                    'value': context[num].address_city
+                                },{
+                                    'title': 'Phone',
+                                    'value': context[num].phone
+                                }]
+                            }];
+                        }<% } %>
 
-                            $('.popup_cover').show();
-                            
-                            <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>// Go through first JSON file
-                                // And create popups
-                                var popup_header = context[num].brewery;
-                                var popup_content = '<div class="popup_content_box">'
-                                popup_content += "<strong>Address:</strong> " + context[num].address + "<br />";
-                                popup_content += "<strong>City:</strong> " + context[num].city + "<br />";
-                                popup_content += "<strong>Phone:</strong> " + context[num].phone + "<br />";
-                                popup_content += "<strong>Website:</strong> " + context[num].website + "<br />";
-                                popup_content += '</div>';
-                            <% if (templateMultipleJSONMap) { %>// Go through second JSON file
-                                // And create popups
-                            } else if (context === json_data_two ) {
-                                var popup_header = context[num].winery;
-                                var popup_content = '<div class="popup_content_box">'
-                                popup_content += "<strong>Address:</strong> " + context[num].address_city + "<br />";
-                                popup_content += "<strong>Phone:</strong> " + context[num].phone + "<br />";
-                                popup_content += '</div>';
-                            }<% } %>
-                            
-                            $('#popup-box').find('.popup_header').html(popup_header);
-                            $('#popup-box').find('.popup_content').html(popup_content);
-    
-                            $('#popup-box').find('.toggle_popup').show();
-                            $('#popup-box').show();
-                        // End popup function
-                        }
                         // Open the popup function when one of our markers is clicked
-                        layer_marker.on({ click: popup });
+                        layer_marker.on({
+                            click: function() {
+                                popupLargeOpen('#popup-box', content_array);
+                            }
+                        });
                         
                         <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
                             json_group.addLayer(layer_marker);
@@ -407,8 +452,8 @@ define([
                     
                     <% if (templateMarkerCluster && !templateMultipleJSONMap) { %>// Add marker to our cluster group
                     marker_cluster_group.addLayer(json_group)
-                    <% } %>// Add marker to our to map
-                    <% if (!templateMultipleJSONMap) { %>
+                    <% } %>
+                    <% if (!templateMultipleJSONMap) { %>// Add marker to our to map
                     json_group.addLayer(layer_marker);
                     map.addLayer(json_group);<% } %>
                     <% if (templateMultipleJSONMap && !templateMultipleJSONMapDropdown && !templateMultipleJSONMapCheckbox && !templateMarkerCluster) { %>
@@ -417,6 +462,7 @@ define([
                     <% if (templateMultipleJSONMap && !templateMultipleJSONMapDropdown && !templateMultipleJSONMapCheckbox && templateMarkerCluster) { %>
                     marker_cluster_group.addLayer(json_group);
                     marker_cluster_group.addLayer(json_group_two);<% } %>
+                    
                     <% if (templateMultipleJSONMapDropdown) { %>// Display map data based on dropdown
                     if ( $('#dropdownSelectMultipleJSON_desktop').val() === 'json_one') {
                         <% if (!templateMarkerCluster) { %>map.addLayer(json_group);
@@ -571,14 +617,13 @@ define([
             // Only visible on mobile
             var isVisibleDescription = false;
             // Grab legend content
-            var legendContentHeader = '<div class="popup_header">' + $('#legend_mobile_header').html() + '</div>' + $('#legend-text').html();
-            var legendContentEtc = <% if (templateColors) { %>$('#legend_mobile_colors').html() + <% } %>$('#credits').html();
+            var legendContentHeader = $('#legend_mobile_header').html();
+            var legendContentEtc = $('#legend-text').html() + <% if (templateColors) { %>$('#legend_mobile_colors').html() + <% } %>$('#credits').html();
             $('.toggle_description').click(function () {
-                // console.log('isVisibleDescription: ', isVisibleDescription);
                 if (isVisibleDescription === false) {
                     $('.description_box_cover').show();
                     $('.description_box_text_header').html(legendContentHeader);
-                    $('.description_box_text_etc').html(legendContentEtc + '<br />');
+                    $('.description_box_text_etc').html(legendContentEtc);
                     $('.description_box').show();
                     isVisibleDescription = true;
                 } else {
@@ -612,7 +657,7 @@ define([
             });
 
             // Close popup button
-            $('.toggle_popup').click(function () {
+            $('.popup').click('.toggle_popup', function () {
                 $('.popup_cover').hide();
                 $('.toggle_popup').hide();
                 $('.popup').hide();

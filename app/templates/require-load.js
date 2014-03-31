@@ -2,10 +2,13 @@
 require(['app/load-tabletop'], function(tabletop){
 	tabletop.initializeTabletopLoad();
 });<% } %>
+
 <% if (templateHandlebars && !templateTabletop) { %>// Handlebars load
 require(['app/load-handlebars'], function(){});<% } %>
+
 <% if (!templateTabletop && !templateHandlebars && !templateMap || templateJSONMap) { %>// JSON load
 require(['app/load-json'], function(){});<% } %>
+
 <% if (templateMap) { %>// Map options load
 require(['app/load-map'], function(map){
 	map.baseMap();
@@ -16,6 +19,7 @@ require(['app/load-map'], function(map){
 	<% if (templateMultipleGeoJSON) { %>map.geoJSONTwo();
 	map.removeSecondGeoJSON();<% } %>
 	<% if (templateTabletop || templateJSONMap) { %>map.loadJSON();<% } %>
+	
 	<% if (templateDropdownGeoJSONAttributes) { %>// Set change for dropdown attributes
 	$('#dropdownSelectAttributes_desktop').change(function() {
 		map.styleChange('desktop', 'attributes');
@@ -38,9 +42,9 @@ require(['app/load-map'], function(map){
 		}<% } else { %>
 		map.geoJSON();
 		<% } %>
-	});
-	<% } %>
-	<% if (templateMultipleGeoJSON) { %>// Set change for dropdown multiple GeoJSOn files
+	});<% } %>
+	
+	<% if (templateMultipleGeoJSON) { %>// Set change for dropdown multiple GeoJSON files
 	$('#dropdownSelectMultiple_desktop').change(function() {
 		map.styleChange('desktop', 'multiple');
 		map.resetMap();
@@ -59,6 +63,7 @@ require(['app/load-map'], function(map){
 			map.geoJSONTwo();
 		}
 	});<% } %>
+	
 	<% if (templateMultipleJSONMapDropdown) { %>// Change JSON files
 	$('#dropdownSelectMultipleJSON_desktop').change(function() {
 		map.styleChange('desktop', 'multiple');
@@ -73,7 +78,10 @@ require(['app/load-map'], function(map){
 	});
 	<% } %>
 });<% } %>
+
+// Script.js load
 require(['app/script'], function(){ });
+
 <% if (!templateMap) { %>// Format if page is within iFrame
 require(['app/load-iframe'], function(iframe){
 	iframe.formatiFrame();

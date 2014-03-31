@@ -94,7 +94,7 @@ module.exports = function (grunt) {
                     'leaflet-providers.js': 'leaflet-providers/leaflet-providers.js',
                     'leaflet.awesome-markers.js': 'Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'<% } %><% if (templateTabletop) { %>,
                     'tabletop.js': 'tabletop/src/tabletop.js'<% } %><% if (templateDataTables) { %>,
-                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars) { %>,
+                    'jquery.dataTables.js': 'datatables/media/js/jquery.dataTables.js'<% } %><% if (templateHandlebars || templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>,
                     'handlebars.js': 'handlebars/handlebars.js'<% } %>,
                     'json2.js': 'json/json2.js',
                     'underscore.js': 'underscore/underscore.js',
