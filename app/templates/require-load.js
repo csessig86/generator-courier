@@ -11,10 +11,12 @@ require(['app/load-json'], function(){});<% } %>
 
 <% if (templateMap) { %>// Map options load
 require(['app/load-map'], function(map){
+	// Base map load
 	map.baseMap();
     map.geocode();
 	map.legendTableView();
-	
+
+	// GeoJSON load
 	<% if (templateGeoJSON) { %>map.geoJSON();<% } %>
 	<% if (templateMultipleGeoJSON) { %>map.geoJSONTwo();
 	map.removeSecondGeoJSON();<% } %>

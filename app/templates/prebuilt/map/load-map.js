@@ -400,45 +400,54 @@ define([
                     // This will open a separate window for the popup
                     // That is nearly full screen
                     (function (num){
-                        // Grab the info from the marker that was clicked
-                        // Here's the content we're using
-                        <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
-                            content_array = [{
-                                'header': context[num].brewery,
-                                'body': [{
-                                    'title': 'Address',
-                                    'value': context[num].address
-                                },{
-                                    'title': 'City',
-                                    'value': context[num].city 
-                                },{
-                                    'title': 'Phone',
-                                    'value': context[num].phone
-                                },{
-                                    'title': 'Website',
-                                    'value': context[num].website
-                                }]
-                            }];
-                        <% if (templateMultipleJSONMap) { %>// Go through second JSON file
-                        // And create popups
-                        } else if (context === json_data_two ) {
-                            content_array = [{
-                                'header': context[num].winery,
-                                'body': [{
-                                    'title': 'Address',
-                                    'value': context[num].address_city
-                                },{
-                                    'title': 'Phone',
-                                    'value': context[num].phone
-                                }]
-                            }];
-                        }<% } %>
+                        // Must call separate popup(e) function to make sure right data is shown
+                        function popup(e) {
+                            var layer_marker = e.target;
+
+                            // Grab the info from the marker that was clicked
+                            // Here's the content we're using
+                            <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
+                                content_array = [{
+                                    'header': context[num].brewery,
+                                    'body': [{
+                                        'title': 'Address',
+                                        'value': context[num].address
+                                    },{
+                                        'title': 'City',
+                                        'value': context[num].city 
+                                    },{
+                                        'title': 'Phone',
+                                        'value': context[num].phone
+                                    },{
+                                        'title': 'Website',
+                                        'value': context[num].website
+                                    }]
+                                }];
+                            <% if (templateMultipleJSONMap) { %>// Go through second JSON file
+                            // And create popups
+                            } else if (context === json_data_two ) {
+                                content_array = [{
+                                    'header': context[num].winery,
+                                    'body': [{
+                                        'title': 'Address',
+                                        'value': context[num].address_city
+                                    },{
+                                        'title': 'Phone',
+                                        'value': context[num].phone
+                                    }]
+                                }];
+                            }<% } %>
+
+                            // Calls our function at the top to display
+                            popupLargeOpen('#popup-box', content_array);
+
+                        // Close popup(e) function
+                        }
 
                         // Open the popup function when one of our markers is clicked
+                        // Using scoping function above
                         layer_marker.on({
-                            click: function() {
-                                popupLargeOpen('#popup-box', content_array);
-                            }
+                            click: popup
                         });
                         
                         <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
@@ -635,11 +644,13 @@ define([
                 // Toggle for description and X buttons
                 // Only visible on mobile
                 mobileLegendDisplay: function() {
+                    // Grab the content that's in our legend
                     var legendContentHeader = $('#legend_mobile_header').html();
                     var legendContentEtc = $('#legend-text').html() + $('#legend_mobile_colors').html() + $('#credits').html();
 
                     if (isVisibleDescription === false) {
                         $('.description_box_cover').show();
+                        // Add legend content to our popup box
                         $('.description_box_text_header').html(legendContentHeader);
                         $('.description_box_text_etc').html(legendContentEtc);
                         $('.description_box').show();
@@ -685,7 +696,7 @@ define([
                     $('.toggle_popup').show();
                     $('#content-box').show();
                     
-                    // Mobile footer button
+                    // Show our mobile footer button
                     if ($(window).width() < 576) {
                         $('#footer-table').show();
                     }
