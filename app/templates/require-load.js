@@ -22,63 +22,91 @@ require(['app/load-map'], function(map){
 	map.removeSecondGeoJSON();<% } %>
 	<% if (templateTabletop || templateJSONMap) { %>map.loadJSON();<% } %>
 	
-	<% if (templateDropdownGeoJSONAttributes) { %>// Set change for dropdown attributes
-	$('#dropdownSelectAttributes_desktop').change(function() {
-		map.styleChange('desktop', 'attributes');
-		map.resetMap();
-		<% if (templateMultipleGeoJSON) { %>if ($('#dropdownSelectMultiple_desktop').val() === 'geojson_one') {
-			map.geoJSON();
-		} else if ($('#dropdownSelectMultiple_desktop').val() === 'geojson_two') {
-			map.geoJSONTwo();
-		}<% } else { %>
-		map.geoJSON();
-		<% } %>
+	<% if (mapViewOptionsDropdown) { %>// Set change for dropdown attributes
+	MapOptionsView = Backbone.View.extend({
+		el: 'body',
+
+		events: {
+			<% if (mapViewOptionsDropdown) { %>"change .dropdownSelect": "dropdownAttributeChange",<% } %>
+			<% if (templateMultipleJSONMapCheckbox) { %>"change .checkbox_json": "dropdownAttributeChange"<% } %>
+		},
+
+		<% if (mapViewOptionsDropdown) { %>// Empty array we will append map options to
+		map_options: [],
+		
+		// Variables
+		current_id: '',
+		current_class: '',
+		current_name: '',<% } %>
+
+		// Toggles through view options
+		dropdownAttributeChange: function(e) {
+			<% if (mapViewOptionsDropdown) { %>map_options = this.map_options;
+			current_id = this.current_id;
+			current_class = this.current_class;
+			current_name = this.current_name;
+
+			// Select attributes of menu options
+			// Will use to style map appropriately
+			current_id = $(e.target).attr('id') + '';
+			current_class = $(e.target).attr('class');
+			current_name = $(e.target).attr('name') + '';
+
+			// Determine if desktop or mobile
+			if ( current_class === 'dropdownSelect dropdownSelect_desktop') {
+				map_options[0] = 'desktop';
+			} else if ( current_class === 'dropdownSelect dropdownSelect_mobile') {
+				map_options[0] = 'mobile';
+			}<% } %>
+
+			<% if (templateDropdownGeoJSONAttributes) { %>// GeoJSON options: Toggle between attributes
+			if ( current_name === 'dropdownSelectAttributes' ) {
+				// This calls our styleChange function in load-map.js
+				map.styleChange(map_options[0], 'attributes');
+				// Reset the map
+				map.resetMap();
+
+				<% if (templateMultipleGeoJSON) { %>// Call function to display GeoJSON file
+				this.geoJSONDisplay();<% } else { %>// Call function to display GeoJSON file
+				map.geoJSON();<% } %>
+			}<% } %>
+
+			<% if (templateMultipleGeoJSON) { %>// GeoJSON options: Toggle between multiple GeoJSON files
+			if ( current_name === 'dropdownGeoJSONFiles' ) {
+				// This calls our styleChange function in load-map.js
+				map.styleChange(map_options[0], 'multiple');
+				// Reset the map
+				map.resetMap();
+
+				<% if (templateMultipleGeoJSON) { %>// Call function to display GeoJSON file
+				this.geoJSONDisplay();<% } else { %>// Call function to display GeoJSON file
+				map.geoJSON();<% } %>
+			}<% } %>
+
+			<% if (templateMultipleJSONMapDropdown) { %>// JSON options: Toggle between multiple JSON files
+			if ( current_name === 'dropdownJSONFiles' ) {
+				// This calls our styleChange function in load-map.js
+				map.styleChange(map_options[0], 'multiple');
+				// Reset the map
+				map.removeJSON();
+			}<% } else if (templateMultipleJSONMapCheckbox) { %>map.removeJSON();<% } %>
+
+			return this;
+		}<% if (templateMultipleGeoJSON) { %>,
+		// Determine whick GeoJSON file to display
+		geoJSONDisplay: function() {
+			map_options = this.map_options;
+
+			// Determine which GeoJSON file to display
+			// Based on if we're on desktop or mobile
+			if ( $('#dropdownSelectMultiple_' + map_options[0]).val() === 'geojson_one') {
+				map.geoJSON();
+			} else if ( $('#dropdownSelectMultiple_' + map_options[0]).val() === 'geojson_two' ) {
+				map.geoJSONTwo();
+			}
+		}<% } %>
 	});
-	$('#dropdownSelectAttributes_mobile').change(function() {
-		map.styleChange('mobile', 'attributes');
-		map.resetMap();
-		<% if (templateMultipleGeoJSON) { %>if ($('#dropdownSelectMultiple_mobile').val() === 'geojson_one') {
-			map.geoJSON();
-		} else if ($('#dropdownSelectMultiple_mobile').val() === 'geojson_two') {
-			map.geoJSONTwo();
-		}<% } else { %>
-		map.geoJSON();
-		<% } %>
-	});<% } %>
-	
-	<% if (templateMultipleGeoJSON) { %>// Set change for dropdown multiple GeoJSON files
-	$('#dropdownSelectMultiple_desktop').change(function() {
-		map.styleChange('desktop', 'multiple');
-		map.resetMap();
-		if ($('#dropdownSelectMultiple_desktop').val() === 'geojson_one') {
-			map.geoJSON();
-		} else if ($('#dropdownSelectMultiple_desktop').val() === 'geojson_two') {
-			map.geoJSONTwo();
-		}
-	});
-	$('#dropdownSelectMultiple_mobile').change(function() {
-		map.styleChange('mobile', 'multiple');
-		map.resetMap();
-		if ($('#dropdownSelectMultiple_mobile').val() === 'geojson_one') {
-			map.geoJSON();
-		} else if ($('#dropdownSelectMultiple_mobile').val() === 'geojson_two') {
-			map.geoJSONTwo();
-		}
-	});<% } %>
-	
-	<% if (templateMultipleJSONMapDropdown) { %>// Change JSON files
-	$('#dropdownSelectMultipleJSON_desktop').change(function() {
-		map.styleChange('desktop', 'multiple');
-		map.removeJSON();
-	});
-	$('#dropdownSelectMultipleJSON_mobile').change(function() {
-		map.styleChange('mobile', 'multiple');
-		map.removeJSON();
-	});<% } else if (templateMultipleJSONMapCheckbox) { %>// Toggle JSON files
-	$('.checkbox_json').change(function() {
-		map.removeJSON();
-	});
-	<% } %>
+	mapoptionsview = new MapOptionsView();<% } %>
 });<% } %>
 
 // Script.js load

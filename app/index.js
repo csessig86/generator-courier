@@ -310,6 +310,16 @@ CourierGenerator.prototype.askFor = function askFor() {
             this.templateHandlebars = true;
         }
 
+        // Set variable if at least one map view option is selected
+        // if (this.templateDropdownGeoJSONAttributes || this.templateMultipleGeoJSON || this.templateMultipleJSONMapDropdown || this.templateMultipleJSONMapCheckbox) {
+        //     this.mapViewOptions = true;
+        // }
+
+        // Set variable if at least one dropdown map view option is selected
+        if (this.templateDropdownGeoJSONAttributes || this.templateMultipleGeoJSON || this.templateMultipleJSONMapDropdown) {
+            this.mapViewOptionsDropdown = true;
+        }
+
         // Use DataTables if we're using a map
         if (this.templateMap === true) {
             this.templateDataTables = true;

@@ -231,7 +231,7 @@ define([
         resetMap: function() {
             map.removeLayer(geojson);
             <% if (templateMultipleGeoJSON) { %>map.removeLayer(geojson_two);<% } %>
-        }<% } %><% if (templateDropdownGeoJSONAttributes || templateMultipleJSONMapDropdown || templateMultipleJSONMapCheckbox) { %>,
+        }<% } %><% if (templateDropdownGeoJSONAttributes || templateMultipleGeoJSON || templateMultipleJSONMapDropdown || templateMultipleJSONMapCheckbox) { %>,
         // Change map with dropdown
         styleChange: function (location, dropdown_option) {
             // Make sure selection options are set the same
