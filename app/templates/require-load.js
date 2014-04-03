@@ -22,7 +22,7 @@ require(['app/load-map'], function(map){
 	map.removeSecondGeoJSON();<% } %>
 	<% if (templateTabletop || templateJSONMap) { %>map.loadJSON();<% } %>
 	
-	<% if (mapViewOptionsDropdown) { %>// Set change for dropdown attributes
+	<% if (mapViewOptions) { %>// Set change for dropdown attributes
 	MapOptionsView = Backbone.View.extend({
 		el: 'body',
 
@@ -89,8 +89,13 @@ require(['app/load-map'], function(map){
 				map.styleChange(map_options[0], 'multiple');
 				// Reset the map
 				map.removeJSON();
-			}<% } else if (templateMultipleJSONMapCheckbox) { %>map.removeJSON();<% } %>
+			}<% } %>
 
+			<% if (templateMultipleJSONMapCheckbox) { %>// Add, remove markers
+			$('.checkbox').click( function() {
+				map.removeJSON();
+			});<% } %>
+		
 			return this;
 		}<% if (templateMultipleGeoJSON) { %>,
 		// Determine whick GeoJSON file to display

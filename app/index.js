@@ -311,11 +311,13 @@ CourierGenerator.prototype.askFor = function askFor() {
         }
 
         // Set variable if at least one map view option is selected
-        // if (this.templateDropdownGeoJSONAttributes || this.templateMultipleGeoJSON || this.templateMultipleJSONMapDropdown || this.templateMultipleJSONMapCheckbox) {
-        //     this.mapViewOptions = true;
-        // }
+        this.mapViewOptions = false;
+        if (this.templateDropdownGeoJSONAttributes || this.templateMultipleGeoJSON || this.templateMultipleJSONMapDropdown || this.templateMultipleJSONMapCheckbox) {
+            this.mapViewOptions = true;
+        }
 
         // Set variable if at least one dropdown map view option is selected
+        this.mapViewOptionsDropdown = false;
         if (this.templateDropdownGeoJSONAttributes || this.templateMultipleGeoJSON || this.templateMultipleJSONMapDropdown) {
             this.mapViewOptionsDropdown = true;
         }
@@ -362,6 +364,7 @@ CourierGenerator.prototype.askFor = function askFor() {
             // Lib files
             includesCSS.push({ name: 'lib/leaflet.css' });
             includesCSS.push({ name: 'lib/leaflet.awesome-markers.css' });
+            includesCSS.push({ name: 'lib/stateface.css' });
             // Custom files
             baseCSS.push({ name: 'styles-map.css' });
 
@@ -410,11 +413,17 @@ CourierGenerator.prototype.publicFiles = function publicFiles() {
 
     // Copy over map styles if selected
     if (this.templateMap) {
+        // Prebuilt
         this.copy('prebuilt/map/load-map.js', 'app/js/app/load-map.js');
-        this.copy('prebuilt/map/lib/jquery.geocodify.js', 'app/js/lib/jquery.geocodify.js');
         this.copy('prebuilt/map/styles-map.scss', 'app/scss/styles-map.scss');
+        // Geocodify
+        this.copy('prebuilt/map/lib/jquery.geocodify.js', 'app/js/lib/jquery.geocodify.js');
+        // Awesome Markers
         this.directory('prebuilt/map/awesome-markers/images', 'app/css/lib/images');
         this.copy('prebuilt/map/awesome-markers/leaflet.awesome-markers.css', 'app/css/lib/leaflet.awesome-markers.css');
+        // StateFace
+        this.directory('prebuilt/map/stateface/webfont', 'app/css/font');
+        this.copy('prebuilt/map/stateface/stateface.css', 'app/css/lib/stateface.css');
     } else {
         this.copy('prebuilt/styles-not-map.scss', 'app/scss/styles-not-map.scss');
         this.copy('prebuilt/load-iframe.js', 'app/js/app/load-iframe.js');

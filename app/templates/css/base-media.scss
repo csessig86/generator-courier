@@ -145,7 +145,7 @@
 <% if (templateMap) { %>//* Toggle map, table buttons *//
 @media (max-width: 575px)  {
     //* Leaflet controls *//
-    .leaflet-top {
+    .leaflet-top, #zoom-to-iowa {
         display: none;
     }
 }<% } %>

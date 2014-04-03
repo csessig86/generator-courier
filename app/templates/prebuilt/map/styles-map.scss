@@ -78,13 +78,30 @@ body {
 }
 
 .leaflet-top {
-    left: 10px;
     top: 50px;
 }
 
 .leaflet-bar {
     border-radius: 4px;
     box-shadow: 0 1px 3px 0 #444;
+}
+
+// Reset map view button
+#zoom-to-iowa a {
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 #444;
+    position: absolute;
+    cursor: pointer;
+    left: 10px;
+    top: 125px;
+    font-size: 20px;
+    cursor: text;
+    width: 26px;
+    // padding: 5px 0px;
+    z-index: 6;
+    background-color: #f4f4f4;
+    color: #bbb;
+    text-align: center
 }
 
 

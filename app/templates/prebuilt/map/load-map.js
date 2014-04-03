@@ -190,17 +190,50 @@ define([
     return {
         // Set intial view of map
         baseMap: function() {
-            if ($(window).width() < 626) {
-              // Mobile
-              map = new L.Map('map').setView([42,-93.5],6);
-            } else {
-              // Desktop
-              map = new L.Map('map').setView([42,-92.25],7);
-            }
-
             // Information for the base tile
             // More options: http://leaflet-extras.github.io/leaflet-providers/preview/
-            var defaultLayer = L.tileLayer.provider('Esri.NatGeoWorldMap').addTo(map);
+            map = new L.map("map", {
+                layers: L.tileLayer.provider('Esri.NatGeoWorldMap'),
+                touchZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                center: [42,-92.25],
+                zoom: 7,
+                minZoom: 6,
+                maxZoom: 9
+            });
+
+            // This sets our reset map view button
+            function resetZoomToIA() {
+                $('#zoom-to-iowa a').css({
+                    'background-color': '#fff',
+                    'color': '#333',
+                    'cursor': 'pointer'
+                });
+            };
+
+            $('#zoom-to-iowa a').click(function() {
+                map.setView([42,-92.25],7);
+                $(this).css({
+                    'background-color': '#f4f4f4',
+                    'color': '#bbb',
+                    'cursor': 'text'
+                });
+            });
+
+            map.on('dragend', function(e) {
+                resetZoomToIA();
+            });
+            map.on('zoomend', function(e) {
+                if (map.getZoom() !== 7) {
+                    resetZoomToIA();
+                }
+            });
+
+            // Mobile view
+            if ($(window).width() < 626) {
+              map.setView([42,-93.5],6);
+            }
         }<% if (templateGeoJSON) { %>,
         // Add GeoJSON to map
         geoJSON: function() {
