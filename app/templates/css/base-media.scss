@@ -34,9 +34,12 @@
 @media (max-width: 625px) {
     //* Headers *//
     h1,
-    h2,
-    h3 {
+    h2 {
         line-height: 20px;
+    }
+
+    h3 {
+        line-height: 24px;
     }
 
     //* Social buttons *//

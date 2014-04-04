@@ -194,6 +194,11 @@ define([
                 minZoom: 6,
                 maxZoom: 9
             });
+
+            // Mobile view
+            if ($(window).width() < 626) {
+              map.setView([42,-93.5],6);
+            }
         },
         // This sets our reset map view button
         resetZoom: function() {
@@ -672,7 +677,7 @@ define([
                 mobileLegendDisplay: function() {
                     // Grab the content that's in our legend
                     var legendContentHeader = $('#legend_mobile_header').html();
-                    var legendContentEtc = $('#legend-text').html() + $('#legend_mobile_colors').html() + $('#credits').html();
+                    var legendContentEtc = $('#legend-text').html()<% if (templateColors) { %>+ $('#legend_mobile_colors').html() <% { %> + $('#credits').html();
 
                     if (isVisibleDescription === false) {
                         $('.description_box_cover').show();
