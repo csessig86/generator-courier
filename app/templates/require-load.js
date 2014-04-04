@@ -92,9 +92,7 @@ require(['app/load-map'], function(map){
 			}<% } %>
 
 			<% if (templateMultipleJSONMapCheckbox) { %>// Add, remove markers
-			$('.checkbox').click( function() {
-				map.removeJSON();
-			});<% } %>
+			map.removeJSON();<% } %>
 		
 			return this;
 		}<% if (templateMultipleGeoJSON) { %>,
