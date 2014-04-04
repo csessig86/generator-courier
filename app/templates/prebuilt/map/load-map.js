@@ -40,6 +40,42 @@ define([
         return x1 + x2;
     }
 
+    <% if (templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>// Our large popups
+    function popupLargeOpen(el, content_array) {
+        // Create a view
+        PopupLargeView = Backbone.View.extend({
+            // Grab el from function parameters
+            el: el,
+
+            initialize: function(){
+                this.render();
+            },
+            render: function(){
+                var el = this.$el;
+                el.empty();
+
+                // Compile the template using Handlebars
+                var source = $('#popups-large-template').html();
+                var handlebarscompile = Handlebars.compile(source);
+                // Render the templates
+                
+                // The content in our JSON file
+                // We'll append to our Handlebars template
+                el.append( handlebarscompile(content_array) );
+                
+                // Show the right stuff
+                $('.popup_cover').show();
+                $('#popup-box').find('.toggle_popup').show();
+                $('#popup-box').show();
+
+                return this;
+            }
+        });
+        // This puts view on the page
+        popuplargeview = new PopupLargeView();
+    // End popup function
+    }<% } %>
+
     <% if (templateGeoJSON) { %>/*
     GEOJSON STYLES
     */
@@ -78,42 +114,6 @@ define([
             "fillColor": fill_color
         }
     };
-
-    <% if (templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>// Our large popups
-    function popupLargeOpen(el, content_array) {
-        // Create a view
-        PopupLargeView = Backbone.View.extend({
-            // Grab el from function parameters
-            el: el,
-
-            initialize: function(){
-                this.render();
-            },
-            render: function(){
-                var el = this.$el;
-                el.empty();
-
-                // Compile the template using Handlebars
-                var source = $('#popups-large-template').html();
-                var handlebarscompile = Handlebars.compile(source);
-                // Render the templates
-                
-                // The content in our JSON file
-                // We'll append to our Handlebars template
-                el.append( handlebarscompile(content_array) );
-                
-                // Show the right stuff
-                $('.popup_cover').show();
-                $('#popup-box').find('.toggle_popup').show();
-                $('#popup-box').show();
-
-                return this;
-            }
-        });
-        // This puts view on the page
-        popuplargeview = new PopupLargeView();
-    // End popup function
-    }<% } %>
 
     // Set the mouseover, mouseout events
     // For our GeoJSON polygons
@@ -185,7 +185,9 @@ define([
         layer_geojson.bindPopup(popup_content);<% } %>
     };<% } %>
 
-    // Our Require.js functions
+    /*
+    REQUIRE.JS FUNCTIONS
+    */
     // Called from require-load.js file
     return {
         // Set intial view of map
@@ -202,8 +204,10 @@ define([
                 minZoom: 6,
                 maxZoom: 9
             });
-
-            // This sets our reset map view button
+        },
+        // This sets our reset map view button
+        resetZoom: function() {
+            // This function darkens the button
             function resetZoomToIA() {
                 $('#zoom-to-iowa a').css({
                     'background-color': '#fff',
@@ -212,6 +216,7 @@ define([
                 });
             };
 
+            // Button is lightened whever button is clicked
             $('#zoom-to-iowa a').click(function() {
                 map.setView([42,-92.25],7);
                 $(this).css({
@@ -221,6 +226,7 @@ define([
                 });
             });
 
+            // Button is darkened whenever user moves map
             map.on('dragend', function(e) {
                 resetZoomToIA();
             });
@@ -229,11 +235,6 @@ define([
                     resetZoomToIA();
                 }
             });
-
-            // Mobile view
-            if ($(window).width() < 626) {
-              map.setView([42,-93.5],6);
-            }
         }<% if (templateGeoJSON) { %>,
         // Add GeoJSON to map
         geoJSON: function() {
@@ -264,7 +265,7 @@ define([
         resetMap: function() {
             map.removeLayer(geojson);
             <% if (templateMultipleGeoJSON) { %>map.removeLayer(geojson_two);<% } %>
-        }<% } %><% if (templateDropdownGeoJSONAttributes || templateMultipleGeoJSON || templateMultipleJSONMapDropdown || templateMultipleJSONMapCheckbox) { %>,
+        }<% } %><% if (templateDropdownGeoJSONAttributes || templateMultipleGeoJSON || templateMultipleJSONMapDropdown) { %>,
         // Change map with dropdown
         styleChange: function (location, dropdown_option) {
             // Make sure selection options are set the same

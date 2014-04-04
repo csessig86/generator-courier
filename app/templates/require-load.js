@@ -13,6 +13,7 @@ require(['app/load-json'], function(){});<% } %>
 require(['app/load-map'], function(map){
 	// Base map load
 	map.baseMap();
+	map.resetZoom();
     map.geocode();
 	map.legendTableView();
 
