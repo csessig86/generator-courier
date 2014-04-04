@@ -1,6 +1,4 @@
-/*
-MAP TEMPLATE, FUNCTIONS & MOUSE EVENTS GO HERE
-*/
+/* MAP TEMPLATE, FUNCTIONS & MOUSE EVENTS GO HERE */
 
 // Our dependencies
 define([
@@ -14,20 +12,15 @@ define([
     'underscore',
     'backbone'
 ], function () {
-
-    /*
-    OUR GLOBAL VARIABLES
-    */
+    /* OUR GLOBAL VARIABLES */
     var map;
     var json_group = new L.FeatureGroup();
     var json_group_two = new L.FeatureGroup();
     <% if (templateMarkerCluster) { %>var marker_cluster_group = new L.MarkerClusterGroup();<% } %>
     L.Icon.Default.imagePath = 'css/images'
 
-
-    /*
-    OUR GLOBAL FUNCTIONS
-    */
+    /* OUR GLOBAL FUNCTIONS */
+    
     // Add commas to numbers
     function numberFormat(nStr){
         nStr += '';
@@ -76,9 +69,7 @@ define([
     // End popup function
     }<% } %>
 
-    <% if (templateGeoJSON) { %>/*
-    GEOJSON STYLES
-    */
+    <% if (templateGeoJSON) { %>/* GEOJSON STYLES */
 
     // Set colors based on their likelihood numbers
     function getColor(m) {
@@ -185,9 +176,8 @@ define([
         layer_geojson.bindPopup(popup_content);<% } %>
     };<% } %>
 
-    /*
-    REQUIRE.JS FUNCTIONS
-    */
+    /* REQUIRE.JS FUNCTIONS */
+
     // Called from require-load.js file
     return {
         // Set intial view of map
@@ -336,6 +326,8 @@ define([
                 // tabletopData = Worksheet
             <% } %>
 
+            // This sets markers on map
+            // It's fired for every JSON file
             function LoadToMap(context, fill_color) {
                 // Pull map information from JSON file
                 for (var num = 0; num < context.length; num ++) {

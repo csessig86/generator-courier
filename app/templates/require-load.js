@@ -17,7 +17,7 @@ require(['app/load-map'], function(map){
     map.geocode();
 	map.legendTableView();
 
-	// GeoJSON load
+	// GeoJSON / JSON load
 	<% if (templateGeoJSON) { %>map.geoJSON();<% } %>
 	<% if (templateMultipleGeoJSON) { %>map.geoJSONTwo();
 	map.removeSecondGeoJSON();<% } %>
