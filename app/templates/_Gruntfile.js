@@ -219,17 +219,19 @@ module.exports = function (grunt) {
         },
         // Connect to localhost
         connect: {
-            options: {
-                port: 9000,
-                hostname: '*'
-            },
-            livereload: {
+            server: {
                 options: {
-                    middleware: function (connect) {
-                        return [
-                            lrSnippet,
-                            mountFolder(connect, '.')
-                        ];
+                    port: 9000,
+                    hostname: '*'
+                },
+                livereload: {
+                    options: {
+                        middleware: function (connect) {
+                            return [
+                                lrSnippet,
+                                mountFolder(connect, '.')
+                            ];
+                        }
                     }
                 }
             }
@@ -237,11 +239,11 @@ module.exports = function (grunt) {
         // Open local host
         open: {
             app: {
-                path: 'http://localhost:<%%= connect.options.port %>/<%%= yeoman.app %>',
+                path: 'http://localhost:<%%= connect.server.options.port %>/<%%= yeoman.app %>',
                 app: 'Google Chrome'
             },
             dist: {
-                path: 'http://localhost:<%%= connect.options.port %>/<%%= yeoman.dist %>',
+                path: 'http://localhost:<%%= connect.server.options.port %>/<%%= yeoman.dist %>',
                 app: 'Google Chrome'
             },
             deployed: {
@@ -278,13 +280,13 @@ module.exports = function (grunt) {
         'bowercopy:basejs',
         'bowercopy:requirejs',
         'compass:dev',
-        'connect:livereload',
+        'connect:server:llivereload',
         'open:app',
         'watch'
     ]);
     grunt.registerTask('server', [
         'compass:dev',
-        'connect:livereload',
+        'connect:server:llivereload',
         'open:app',
         'watch'
     ]);
@@ -303,7 +305,7 @@ module.exports = function (grunt) {
         'usemin',
         'requirejs',
         'wrap',
-        'connect:livereload',
+        'connect:server:llivereload',
         'open:dist',
         'watch'
     ]);

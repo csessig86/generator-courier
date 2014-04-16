@@ -20,7 +20,7 @@ require.config({
 		'tabletop': ['handlebars']<% } %><% if (templateMarkerCluster) { %>,
 		'leaflet.markercluster-custom-src': ['leaflet']<% } %>,
 		'backbone': {
-			deps: ['json2', 'underscore', 'jquery'],
+			deps: ['json2', 'underscore',<% if (templateMap) { %>'jquery.geocodify',<% } %> 'jquery'],
 			exports: 'Backbone'
 		}
 	}

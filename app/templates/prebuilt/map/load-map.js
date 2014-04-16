@@ -2,15 +2,12 @@
 
 // Our dependencies
 define([
-    'jquery',
-    'jquery.geocodify',
+    'backbone',
     'async!http://maps.google.com/maps/api/js?sensor=false',
     'leaflet.awesome-markers',
     <% if (templateMarkerCluster) { %>'leaflet.markercluster-custom-src',<% } %>
     <% if (templateTabletop) { %>'tabletop',<% } %>
     <% if (templateLargePopupGeoJSON || templateLargePopupNonGeoJSON) { %>'handlebars',<% } %>
-    'underscore',
-    'backbone'
 ], function () {
     /* OUR GLOBAL VARIABLES */
     var map;
@@ -188,17 +185,21 @@ define([
                 layers: L.tileLayer.provider('Esri.NatGeoWorldMap'),
                 touchZoom: false,
                 doubleClickZoom: false,
-                boxZoom: false,
                 center: [42,-92.25],
                 zoom: 7,
-                minZoom: 6,
-                maxZoom: 9
+                minZoom: 5,
+                maxZoom: 14,
+                maxBounds: [[38.95,-101.88],[44.85,-85.35]]
             });
 
             // Mobile view
             if ($(window).width() < 626) {
               map.setView([42,-93.5],6);
             }
+        },
+        // Invalidate size of map
+        mapInvalidateSize: function() {
+            map.invalidateSize();
         },
         // This sets our reset map view button
         resetZoom: function() {
@@ -335,9 +336,9 @@ define([
             // It's fired for every JSON file
             function LoadToMap(context, fill_color) {
                 // Pull map information from JSON file
-                for (var num = 0; num < context.length; num ++) {
-                    var dataLat = context[num].latitude;
-                    var dataLong = context[num].longitude;
+                _.each(context, function(num) {
+                    var dataLat = num.latitude;
+                    var dataLong = num.longitude;
 
                     // Add to our marker
                     var marker_location = new L.LatLng(dataLat, dataLong);
@@ -397,12 +398,12 @@ define([
                         // Change 'Address', 'City', etc.
                         // To match table column names in your table
                         var popup_content = '<div class="popup_box" ' + ' id= "popup-' + num + '">';
-                        popup_content += '<div class="popup_box_header">' + context[num].brewery + '</div>';
+                        popup_content += '<div class="popup_box_header">' + num.brewery + '</div>';
                         popup_content += '<hr />';
-                        popup_content += '<strong>Address:</strong> ' + context[num].address + '<br />';
-                        popup_content += '<strong>City:</strong> ' + context[num].city + '<br />';
-                        popup_content += '<strong>Phone:</strong> ' + context[num].phone + '<br />';
-                        popup_content += '<strong>Website:</strong> ' + context[num].website + '<br />';
+                        popup_content += '<strong>Address:</strong> ' + num.address + '<br />';
+                        popup_content += '<strong>City:</strong> ' + num.city + '<br />';
+                        popup_content += '<strong>Phone:</strong> ' + num.phone + '<br />';
+                        popup_content += '<strong>Website:</strong> ' + num.website + '<br />';
                         popup_content += '</div>';
 
                         // Bind popup to the variable we created
@@ -415,10 +416,10 @@ define([
                         // Change 'Address', 'City', etc.
                         // To match table column names in your table
                         var popup_content_two = '<div class="popup_box" ' + ' id= "popup-' + num + '">';
-                        popup_content_two += '<div class="popup_box_header">' + context[num].winery + '</div>';
+                        popup_content_two += '<div class="popup_box_header">' + num.winery + '</div>';
                         popup_content_two += '<hr />';
-                        popup_content_two += '<strong>Address:</strong> ' + context[num].address_city + '<br />';
-                        popup_content_two += '<strong>Phone:</strong> ' + context[num].phone + '<br />';
+                        popup_content_two += '<strong>Address:</strong> ' + num.address_city + '<br />';
+                        popup_content_two += '<strong>Phone:</strong> ' + num.phone + '<br />';
                         popup_content_two += '</div>';
 
                         // Bind popup to the variable we created
@@ -439,32 +440,32 @@ define([
                             // Here's the content we're using
                             <% if (templateMultipleJSONMap) { %>if ( context === json_data ) {<% } %>
                                 content_array = [{
-                                    'header': context[num].brewery,
+                                    'header': num.brewery,
                                     'body': [{
                                         'title': 'Address',
-                                        'value': context[num].address
+                                        'value': num.address
                                     },{
                                         'title': 'City',
-                                        'value': context[num].city 
+                                        'value': num.city 
                                     },{
                                         'title': 'Phone',
-                                        'value': context[num].phone
+                                        'value': num.phone
                                     },{
                                         'title': 'Website',
-                                        'value': context[num].website
+                                        'value': num.website
                                     }]
                                 }];
                             <% if (templateMultipleJSONMap) { %>// Go through second JSON file
                             // And create popups
                             } else if (context === json_data_two ) {
                                 content_array = [{
-                                    'header': context[num].winery,
+                                    'header': num.winery,
                                     'body': [{
                                         'title': 'Address',
-                                        'value': context[num].address_city
+                                        'value': num.address_city
                                     },{
                                         'title': 'Phone',
-                                        'value': context[num].phone
+                                        'value': num.phone
                                     }]
                                 }];
                             }<% } %>
@@ -522,7 +523,7 @@ define([
                         <% } else { %>marker_cluster_group.addLayer(json_group_two);<% } %>
                     }<% } %>
                 // Close context for loop
-                }
+                }, this);
             // Close LoadToMap function
             }
             // Fire function that puts the markers on the map

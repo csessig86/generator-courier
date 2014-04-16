@@ -141,34 +141,34 @@ body {
 
 <% if (templateDropdownGeoJSONAttributes) { %>/* Select box */
 .select_box {
-  float: left;
-  width: 100%;
+    float: left;
+    width: 100%;
 }
 
 #compare_the_maps_header {
-  float: left;
-  font-weight: bold;
+    float: left;
+    font-weight: bold;
 }
 
 .select_box select {
-  margin-bottom: 5px;
-  width: 100%;
-  float: right;
+    margin-bottom: 5px;
+    width: 100%;
+    float: right;
 }
 
 .select_box h5 {
-  margin: 5px 0;
+    margin: 5px 0;
 }
 
 // Dropdown menu styles
 .dropdownSelect_desktop {
-  float: left;
-  font-size: 12px;
-  height: 25px;
+    float: left;
+    font-size: 12px;
+    height: 25px;
 }
 
 .dropdownSelect_mobile {
-margin-left: 5px;
+    margin-left: 5px;
 }<% } %>
 
 
@@ -219,8 +219,8 @@ margin-left: 5px;
 }
 
 .colors label.checkbox {
-  padding-left: 0;
-  padding-right: 5px;
+    padding-left: 0;
+    padding-right: 5px;
 }
 .colors label.checkbox input {
     clear: both;
@@ -231,27 +231,27 @@ margin-left: 5px;
 
 //* Hide, show legend buttons *//
 #hide_show_legend {
-  height: 20px;
-  margin: 5px 5px 0 0;
-  padding: 5px 5px 0 0;
-  z-index: 8;
+    height: 20px;
+    margin: 5px 5px 0 0;
+    padding: 5px 5px 0 0;
+    z-index: 8;
 }
 
 .icon-sort-up,
 .icon-sort-down,
 .hide_show_legend_text {
-  cursor: pointer;
-  float: right;
-  padding-left: 5px;
-  @include user-select(none)
+    cursor: pointer;
+    float: right;
+    padding-left: 5px;
+    @include user-select(none)
 }
 
 .icon-sort-up {
-  padding-top: 5px;
+    padding-top: 5px;
 }
 
 .icon-sort-down {
-  padding-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 
@@ -271,106 +271,105 @@ margin-left: 5px;
 //* Credits *//
 #legend #credits,
 .description_box_text #credits {
-  float: left;
-  font-size: 11px;
-  line-height: 1.5em;
-  padding-bottom: 10px;
+    float: left;
+    font-size: 11px;
+    line-height: 1.5em;
+    padding-bottom: 10px;
 }
 
 .description_box_text_etc, .description_box_text_etc p {
-  float: left;
-  width: 100%
+    float: left;
+    width: 100%
 }
 
 //* Social links *//
 #share {
-  width: 100%;
+    width: 100%;
 
-  ul {
-    margin: 0;
-  }
+    ul {
+        margin: 0;
+    }
 
-  li {
-    float: left;
-    list-style: none;
-  }
+    li {
+        float: left;
+        list-style: none;
+    }
 
-  #share-first-li {
-    padding-right: 15px;
-  }
+    #share-first-li {
+        padding-right: 15px;
+    }
 }
 
 
 //* GEOCODE STYLES GO HERE *//
-
 #geocoder_box {
-  float: right;
+    float: right;
 }
 
 .icon-map-marker:before {
-  float: left;
-  font-size: 125%;
-  margin-right: 5px;
-  margin-top: 5px;
+    float: left;
+    font-size: 125%;
+    margin-right: 5px;
+    margin-top: 5px;
 }
 
 #geocoder {
-  display: table-cell;
-  float: left;
-  margin: 5px 5px 0;
-  padding: 0;
-  vertical-align: middle;
+    display: table-cell;
+    float: left;
+    margin: 5px 5px 0;
+    padding: 0;
+    vertical-align: middle;
 
-  .geocodifyInput {
-    border-radius: 4px 0 0 4px;
-    border-right: 0;
-    margin-bottom: 5px;
-    padding: 9.5px 8px;
-  }
+    .geocodifyInput {
+        border-radius: 4px 0 0 4px;
+        border-right: 0;
+        margin-bottom: 5px;
+        padding: 9.5px 8px;
+    }
   
-  .geocodifyButton {
-    border: 1px solid #ccc;
-    border-radius: 0 4px 4px 0;
-    float: right;
-    margin-bottom: 5px;
-    padding: 11px;
-  }
+    .geocodifyButton {
+        border: 1px solid #ccc;
+        border-radius: 0 4px 4px 0;
+        float: right;
+        margin-bottom: 5px;
+        padding: 11px;
+    }
 
-  .geocodifyDropdown {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top-color: #d9d9d9;
-    margin: 0 !important;
-    padding: 5px 0 !important;
-    position: absolute;
-    width: 260px;
-    z-index: 9003;
-    @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
-  }
+    .geocodifyDropdown {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-top-color: #d9d9d9;
+        margin: 0 !important;
+        padding: 5px 0 !important;
+        position: absolute;
+        width: 260px;
+        z-index: 9003;
+        @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
+    }
   
-  .geocodifyDropdown ul {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
+    .geocodifyDropdown ul {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
-  .geocodifyDropdown li {
-    cursor: pointer;
-    display: block;
-    font-family: inherit;
-    font-size: 100%;
-    list-style-type: none;
-    margin: 0;
-    padding: 5px 0 5px 8px;
-    text-align: left;
-  }
+    .geocodifyDropdown li {
+        cursor: pointer;
+        display: block;
+        font-family: inherit;
+        font-size: 100%;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 5px 8px;
+        text-align: left;
+    }
 
-  .selected {
-    background-color: #2262cc;
-    background-repeat: repeat-x;
-    color: #fff;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-    @include background-image(#08c, #0077b3)
-  }
+    .selected {
+        background-color: #2262cc;
+        background-repeat: repeat-x;
+        color: #fff;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+        @include background-image(#08c, #0077b3)
+    }
 }
 
 
@@ -388,20 +387,20 @@ margin-left: 5px;
 
 //* IE 8 or lower warning *//
 #ie_warning {
-  background-color: #333;
-  border: 1px solid #fff;
-  bottom: 1%;
-  color: #fff;
-  left: 1%;
-  padding: 5px 10px;
-  position: absolute;
-  z-index: 10000000;
+    background-color: #333;
+    border: 1px solid #fff;
+    bottom: 1%;
+    color: #fff;
+    left: 1%;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 10000000;
 }
 
 //* Only visible on IE *//
 #search_box_text {
-  display: none;
-  font-size: 14px;
-  padding-right: 5px;
-  vertical-align: middle;
+    display: none;
+    font-size: 14px;
+    padding-right: 5px;
+    vertical-align: middle;
 }
